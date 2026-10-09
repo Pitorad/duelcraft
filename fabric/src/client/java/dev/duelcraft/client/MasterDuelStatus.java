@@ -29,6 +29,6 @@ public final class MasterDuelStatus {
 	}
 
 	public static void draw(GuiGraphicsExtractor g, Font font, int x, int y) {
-		g.text(font, line(), x, y, color());
+		g.textWithWordWrap(font, line(), x, y, Math.max(100, g.guiWidth() - 2 * x), color());
 	}
 }

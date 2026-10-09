@@ -190,7 +190,7 @@
    "response": "u64 with exactly count bits from available",
    "uiWidget": "flag_picker",
    "aiPolicy": "ai_flags",
-   "verified": false
+   "verified": true
   },
   {
    "msgId": 141,
@@ -210,7 +210,7 @@
    "response": "i32 passcode that satisfies the opcode program (is_declarable)",
    "uiWidget": "card_name_search",
    "aiPolicy": "ai_declare",
-   "verified": false
+   "verified": true
   },
   {
    "msgId": 143,

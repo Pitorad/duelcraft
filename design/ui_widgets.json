@@ -28,7 +28,7 @@
    "javaClass": "YesNoWidget",
    "shows": "Question text (effect description or system string) with the card's art.",
    "input": "Yes / No buttons",
-   "verified": false
+   "verified": true
   },
   {
    "id": "option_list",
@@ -70,7 +70,7 @@
    "javaClass": "PositionPickerWidget",
    "shows": "The card in each allowed position (face-up ATK, face-up DEF, face-down DEF...).",
    "input": "click one",
-   "verified": false
+   "verified": true
   },
   {
    "id": "sort_list",
@@ -98,14 +98,14 @@
    "javaClass": "FlagPickerWidget",
    "shows": "Toggle buttons for each available Type or Attribute, 'pick N'.",
    "input": "toggle then Confirm",
-   "verified": false
+   "verified": true
   },
   {
    "id": "card_name_search",
    "javaClass": "CardNameSearchWidget",
    "shows": "Text box filtering Master Duel card names to the ones allowed; list of matches.",
    "input": "type, click a match",
-   "verified": false
+   "verified": true
   }
  ]
 }

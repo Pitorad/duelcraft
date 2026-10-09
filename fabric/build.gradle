@@ -14,7 +14,7 @@ loom {
 	splitEnvironmentSourceSets()
 	runs {
 		client {
-			programArgs "--username", (System.getenv("DUELCRAFT_USERNAME") ?: "Duelist")
+			programArgs "--username", (System.getenv("DUELCRAFT_USERNAME") ?: "Duelist"), "--width", "1600", "--height", "900"
 			vmArgs "--enable-native-access=ALL-UNNAMED"
 		}
 	}

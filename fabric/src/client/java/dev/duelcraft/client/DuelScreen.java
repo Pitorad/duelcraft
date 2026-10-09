@@ -1082,6 +1082,10 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 				}
 			}
 		}
+		if (search != null && widget.buttons.isEmpty()) {
+			search.setValue("Dragon"); // card-name search: type, then a match appears as a button
+			return "typed Dragon -> " + widget.buttons.size() + " matches";
+		}
 		if (widget.zoneMode) {
 			for (int bit = 0; bit < 32; bit++) {
 				if ((widget.zoneBlocked >>> bit & 1) == 0 && zoneOfBit(bit) != null) {

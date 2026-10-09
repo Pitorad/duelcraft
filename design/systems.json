@@ -263,7 +263,7 @@
     "card_db"
    ],
    "test": "in-game: /duel testdrop and a kill drop a card item",
-   "verified": false
+   "verified": true
   },
   {
    "id": "network",
@@ -342,7 +342,7 @@
     "md_index"
    ],
    "test": "in-game with DUELCRAFT_MD_DIR pointing nowhere shows the message",
-   "verified": false
+   "verified": true
   },
   {
    "id": "multiplayer_link",
