@@ -1,0 +1,54 @@
+{
+ "sheet": "link_markers",
+ "doc": "Master Duel link arrow bit (in a2>>9) -> ocgcore LINK_MARKER_ bit.",
+ "rows": [
+  {
+   "mdBit": 0,
+   "engineBit": 6,
+   "name": "TOP_LEFT",
+   "verified": true
+  },
+  {
+   "mdBit": 1,
+   "engineBit": 7,
+   "name": "TOP",
+   "verified": true
+  },
+  {
+   "mdBit": 2,
+   "engineBit": 8,
+   "name": "TOP_RIGHT",
+   "verified": true
+  },
+  {
+   "mdBit": 3,
+   "engineBit": 3,
+   "name": "LEFT",
+   "verified": true
+  },
+  {
+   "mdBit": 4,
+   "engineBit": 5,
+   "name": "RIGHT",
+   "verified": true
+  },
+  {
+   "mdBit": 5,
+   "engineBit": 0,
+   "name": "BOTTOM_LEFT",
+   "verified": true
+  },
+  {
+   "mdBit": 6,
+   "engineBit": 1,
+   "name": "BOTTOM",
+   "verified": true
+  },
+  {
+   "mdBit": 7,
+   "engineBit": 2,
+   "name": "BOTTOM_RIGHT",
+   "verified": true
+  }
+ ]
+}

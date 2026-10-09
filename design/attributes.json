@@ -1,0 +1,70 @@
+{
+ "sheet": "attributes",
+ "doc": "Master Duel attribute id (a1>>22 & 15) -> ocgcore ATTRIBUTE_ bit.",
+ "rows": [
+  {
+   "mdAttribute": 0,
+   "engineAttribute": 0,
+   "name": "NONE",
+   "cardsAgree": 9,
+   "cardsSeen": 10,
+   "verified": true
+  },
+  {
+   "mdAttribute": 1,
+   "engineAttribute": 16,
+   "name": "LIGHT",
+   "cardsAgree": 1964,
+   "cardsSeen": 1964,
+   "verified": true
+  },
+  {
+   "mdAttribute": 2,
+   "engineAttribute": 32,
+   "name": "DARK",
+   "cardsAgree": 2657,
+   "cardsSeen": 2657,
+   "verified": true
+  },
+  {
+   "mdAttribute": 3,
+   "engineAttribute": 2,
+   "name": "WATER",
+   "cardsAgree": 943,
+   "cardsSeen": 943,
+   "verified": true
+  },
+  {
+   "mdAttribute": 4,
+   "engineAttribute": 4,
+   "name": "FIRE",
+   "cardsAgree": 826,
+   "cardsSeen": 826,
+   "verified": true
+  },
+  {
+   "mdAttribute": 5,
+   "engineAttribute": 1,
+   "name": "EARTH",
+   "cardsAgree": 2112,
+   "cardsSeen": 2112,
+   "verified": true
+  },
+  {
+   "mdAttribute": 6,
+   "engineAttribute": 8,
+   "name": "WIND",
+   "cardsAgree": 872,
+   "cardsSeen": 872,
+   "verified": true
+  },
+  {
+   "mdAttribute": 7,
+   "engineAttribute": 64,
+   "name": "DIVINE",
+   "cardsAgree": 8,
+   "cardsSeen": 8,
+   "verified": true
+  }
+ ]
+}

@@ -1,0 +1,402 @@
+{
+ "sheet": "systems",
+ "doc": "Every system the mashup has. One row = one Java class (or native/tool unit). dependsOn lists other system ids. test = how the row is proven; verified flips to true only after that test passed.",
+ "columns": [
+  "id",
+  "javaClass",
+  "side",
+  "purpose",
+  "dependsOn",
+  "test",
+  "verified"
+ ],
+ "rows": [
+  {
+   "id": "md_locator",
+   "javaClass": "dev.duelcraft.md.MasterDuelLocator",
+   "side": "main",
+   "purpose": "Find the player's Yu-Gi-Oh! Master Duel install from Steam's libraryfolders.vdf (app 1449850) and its LocalData/<id>/0000 bundle folder. Env DUELCRAFT_MD_DIR overrides.",
+   "dependsOn": [],
+   "test": "unit test finds C:/Program Files (x86)/Steam/steamapps/common/Yu-Gi-Oh!  Master Duel",
+   "verified": true
+  },
+  {
+   "id": "lz4",
+   "javaClass": "dev.duelcraft.md.Lz4",
+   "side": "main",
+   "purpose": "LZ4 block decompression for UnityFS blocks.",
+   "dependsOn": [],
+   "test": "unit test: bundle blocks decompress to their declared sizes",
+   "verified": true
+  },
+  {
+   "id": "unity_bundle",
+   "javaClass": "dev.duelcraft.md.UnityBundle",
+   "side": "main",
+   "purpose": "Read a UnityFS bundle: header, LZ4 block/directory info, nodes (serialized file + .resS).",
+   "dependsOn": [
+    "lz4"
+   ],
+   "test": "unit test: card_prop bundle opens, node list matches UnityPy",
+   "verified": true
+  },
+  {
+   "id": "serialized_file",
+   "javaClass": "dev.duelcraft.md.SerializedFile",
+   "side": "main",
+   "purpose": "Parse a Unity 6 serialized file (v22) with type trees; read objects as maps through the type tree (TextAsset, Texture2D, AssetBundle container).",
+   "dependsOn": [
+    "unity_bundle"
+   ],
+   "test": "unit test: TextAsset bytes and Texture2D fields equal UnityPy's",
+   "verified": true
+  },
+  {
+   "id": "md_index",
+   "javaClass": "dev.duelcraft.md.MasterDuelIndex",
+   "side": "main",
+   "purpose": "Map asset paths -> bundle files by reading each bundle's AssetBundle container once; cache to <instance>/duelcraft/md_index.tsv, rebuilt when the LocalData listing changes.",
+   "dependsOn": [
+    "serialized_file",
+    "md_locator"
+   ],
+   "test": "unit test: index contains card_prop/card_name/card_desc/card_indx and illust/<cid>.bmp; timing logged",
+   "verified": true
+  },
+  {
+   "id": "md_card_tables",
+   "javaClass": "dev.duelcraft.md.MasterDuelCardTables",
+   "side": "main",
+   "purpose": "Decrypt (brute-force key, zlib) and parse card_prop/card_indx/card_name/card_desc into MdCard rows (cid, name, text, raw props).",
+   "dependsOn": [
+    "md_index"
+   ],
+   "test": "unit test: 14,327 rows; cid 4007 is 'Blue-Eyes White Dragon' ATK 3000",
+   "verified": true
+  },
+  {
+   "id": "card_db",
+   "javaClass": "dev.duelcraft.cards.CardDb",
+   "side": "main",
+   "purpose": "Join Master Duel rows with cards.tsv (passcode, setcodes, overrides) and the kind/race/attribute/link sheets into CardInfo (engine data + display data). Lookup by cid and by passcode.",
+   "dependsOn": [
+    "md_card_tables"
+   ],
+   "test": "unit test: conversion equals the generator's check for every mapped card",
+   "verified": true
+  },
+  {
+   "id": "native_lib",
+   "javaClass": "dev.duelcraft.nativelib.NativeLib",
+   "side": "main",
+   "purpose": "Extract duelcraft_native.dll (ocgcore + BC7 decoder) from the jar to <instance>/duelcraft/native and bind it with the Java FFM API.",
+   "dependsOn": [],
+   "test": "unit test: OCG_GetVersion returns 11.0",
+   "verified": true
+  },
+  {
+   "id": "art_cache",
+   "javaClass": "dev.duelcraft.md.CardArtCache",
+   "side": "main",
+   "purpose": "Card illustration for a cid: find illust/<cid>.bmp bundle (tcg first, then common), decode BC7 via native_lib, cache PNG in <instance>/duelcraft/art/<cid>.png.",
+   "dependsOn": [
+    "md_index",
+    "native_lib",
+    "serialized_file"
+   ],
+   "test": "unit test: cid 4064 decodes to a 512x512 image matching UnityPy's",
+   "verified": true
+  },
+  {
+   "id": "card_scripts",
+   "javaClass": "dev.duelcraft.duel.CardScripts",
+   "side": "main",
+   "purpose": "Serve EDOPro Lua scripts (constant.lua, utility.lua, proc_*.lua, c<passcode>.lua) from cardscripts.zip shipped in the jar.",
+   "dependsOn": [],
+   "test": "unit test: c55144522.lua (Pot of Greed) loads",
+   "verified": true
+  },
+  {
+   "id": "ocg_core",
+   "javaClass": "dev.duelcraft.duel.OcgCore",
+   "side": "main",
+   "purpose": "FFM binding of ocgapi.h: create/destroy duel, new card, start, process, get message, set response, query location/field; card/script/log upcalls.",
+   "dependsOn": [
+    "native_lib",
+    "card_db",
+    "card_scripts"
+   ],
+   "test": "unit test: a duel with two 40-card decks starts and reaches MSG_SELECT_IDLECMD",
+   "verified": true
+  },
+  {
+   "id": "duel_messages",
+   "javaClass": "dev.duelcraft.duel.DuelMessages",
+   "side": "main",
+   "purpose": "Split the length-prefixed message buffer; decode every prompt (duel_prompts sheet) and display event (duel_events sheet) into records.",
+   "dependsOn": [
+    "ocg_core"
+   ],
+   "test": "AI-vs-AI soak test decodes every message without leftover bytes",
+   "verified": true
+  },
+  {
+   "id": "duel_state",
+   "javaClass": "dev.duelcraft.duel.DuelState",
+   "side": "main",
+   "purpose": "Snapshot of the field after each process step from OCG_DuelQueryLocation (both players, all locations) with per-viewer hiding (opponent hand, face-down, decks).",
+   "dependsOn": [
+    "ocg_core"
+   ],
+   "test": "AI-vs-AI soak test: snapshot card counts equal OCG_DuelQueryCount",
+   "verified": true
+  },
+  {
+   "id": "duel_ai",
+   "javaClass": "dev.duelcraft.duel.DuelAi",
+   "side": "main",
+   "purpose": "Answer every prompt for a computer duelist following ai_policies; never sends an invalid response twice (falls back, then concedes).",
+   "dependsOn": [
+    "duel_messages",
+    "duel_state"
+   ],
+   "test": "AI-vs-AI soak test: 30 duels with the sheet decks all end with MSG_WIN, no stalls",
+   "verified": true
+  },
+  {
+   "id": "duel_session",
+   "javaClass": "dev.duelcraft.duel.DuelSession",
+   "side": "main",
+   "purpose": "One duel: two seats (ServerPlayer or AI), runs the core on the server thread, routes prompts to seats, applies responses, broadcasts state/events, ends with rewards.",
+   "dependsOn": [
+    "duel_ai",
+    "duel_state",
+    "duel_messages"
+   ],
+   "test": "in-game: player vs zombie duel plays to a win",
+   "verified": true
+  },
+  {
+   "id": "duel_manager",
+   "javaClass": "dev.duelcraft.duel.DuelManager",
+   "side": "main",
+   "purpose": "Challenges (player->mob, player->player with accept), one duel per participant, ticking, forfeit on disconnect/death, /duel command.",
+   "dependsOn": [
+    "duel_session"
+   ],
+   "test": "in-game: challenge, accept, forfeit and disconnect paths",
+   "verified": true
+  },
+  {
+   "id": "mob_duelist",
+   "javaClass": "dev.duelcraft.duel.MobDuelist",
+   "side": "main",
+   "purpose": "Freeze a challenged mob (no AI, invulnerable, facing the player) for the duel and restore it after; pick its deck from mob_duelists.",
+   "dependsOn": [
+    "duel_manager"
+   ],
+   "test": "in-game: zombie stands still and is restored after the duel",
+   "verified": true
+  },
+  {
+   "id": "board",
+   "javaClass": "dev.duelcraft.world.DuelBoard",
+   "side": "main",
+   "purpose": "World board: mat + CardEntity per occupied zone between the duelists, updated from DuelState; attack lunge animation.",
+   "dependsOn": [
+    "duel_session",
+    "card_entity"
+   ],
+   "test": "in-game screenshot shows cards on the mat matching the duel screen",
+   "verified": true
+  },
+  {
+   "id": "card_entity",
+   "javaClass": "dev.duelcraft.world.CardEntity",
+   "side": "main",
+   "purpose": "Synced entity showing one card (cid, face up/down, attack/defense) or the mat; no collision, not saved.",
+   "dependsOn": [],
+   "test": "in-game: entity renders the card art",
+   "verified": true
+  },
+  {
+   "id": "items",
+   "javaClass": "dev.duelcraft.item.ModItems",
+   "side": "main",
+   "purpose": "Register the items sheet (card, deck box), data components and the creative tab with every card.",
+   "dependsOn": [
+    "card_db"
+   ],
+   "test": "in-game: creative tab lists cards; tooltip shows name/stats/text",
+   "verified": true
+  },
+  {
+   "id": "deck_box_menu",
+   "javaClass": "dev.duelcraft.item.DeckBoxMenu",
+   "side": "main",
+   "purpose": "Deck box container: 60 main + 15 extra slots that only take cards (extra deck types go to extra), saved in the deck box item.",
+   "dependsOn": [
+    "items"
+   ],
+   "test": "in-game: put cards in, close, reopen, still there; deck used in duel",
+   "verified": true
+  },
+  {
+   "id": "starter_deck",
+   "javaClass": "dev.duelcraft.item.StarterDeck",
+   "side": "main",
+   "purpose": "On a player's first join in a world give a deck box holding the starter deck (decks sheet) and a chat hint.",
+   "dependsOn": [
+    "items",
+    "card_db"
+   ],
+   "test": "in-game: new world -> deck box in inventory with 40 cards",
+   "verified": true
+  },
+  {
+   "id": "card_drops",
+   "javaClass": "dev.duelcraft.item.CardDrops",
+   "side": "main",
+   "purpose": "Survival collecting: hostile mobs drop a random playable card (chance in config), duel wins give a card from the loser's deck.",
+   "dependsOn": [
+    "items",
+    "card_db"
+   ],
+   "test": "in-game: /duel testdrop and a kill drop a card item",
+   "verified": false
+  },
+  {
+   "id": "network",
+   "javaClass": "dev.duelcraft.net.DuelNet",
+   "side": "main",
+   "purpose": "Register the payloads sheet with Fabric networking (StreamCodecs) and route them.",
+   "dependsOn": [],
+   "test": "in-game: prompt reaches client, response reaches server",
+   "verified": true
+  },
+  {
+   "id": "client_art",
+   "javaClass": "dev.duelcraft.client.ArtTextures",
+   "side": "client",
+   "purpose": "Card art as DynamicTextures (duelcraft:art/<cid>) loaded off-thread from art_cache, with a placeholder until ready.",
+   "dependsOn": [
+    "art_cache"
+   ],
+   "test": "in-game: tooltip and duel screen show real art",
+   "verified": true
+  },
+  {
+   "id": "card_tooltip",
+   "javaClass": "dev.duelcraft.client.CardTooltip",
+   "side": "client",
+   "purpose": "Tooltip component drawing the card art, name, stats and wrapped Master Duel effect text.",
+   "dependsOn": [
+    "client_art",
+    "items"
+   ],
+   "test": "in-game screenshot of a hovered card",
+   "verified": true
+  },
+  {
+   "id": "duel_screen",
+   "javaClass": "dev.duelcraft.client.DuelScreen",
+   "side": "client",
+   "purpose": "Full-screen duel field (ui_widgets): zones, hand, LP, phase, log, card preview, and the prompt widgets that send responses.",
+   "dependsOn": [
+    "network",
+    "client_art"
+   ],
+   "test": "in-game: a whole duel is playable from this screen",
+   "verified": true
+  },
+  {
+   "id": "duel_hud",
+   "javaClass": "dev.duelcraft.client.DuelHud",
+   "side": "client",
+   "purpose": "In-world overlay while dueling: LP, phase, whose turn, pending prompt and the key to open the duel screen.",
+   "dependsOn": [
+    "network"
+   ],
+   "test": "in-game screenshot in world view during a duel",
+   "verified": true
+  },
+  {
+   "id": "card_entity_renderer",
+   "javaClass": "dev.duelcraft.client.CardEntityRenderer",
+   "side": "client",
+   "purpose": "Render CardEntity as a flat card quad with art (or card back) and the mat.",
+   "dependsOn": [
+    "card_entity",
+    "client_art"
+   ],
+   "test": "in-game screenshot of the board",
+   "verified": true
+  },
+  {
+   "id": "md_status",
+   "javaClass": "dev.duelcraft.client.MasterDuelStatus",
+   "side": "client",
+   "purpose": "Title-screen/in-game message when Master Duel isn't installed or still being indexed (progress).",
+   "dependsOn": [
+    "md_locator",
+    "md_index"
+   ],
+   "test": "in-game with DUELCRAFT_MD_DIR pointing nowhere shows the message",
+   "verified": false
+  },
+  {
+   "id": "multiplayer_link",
+   "javaClass": "dev.duelcraft.net.MeltyLink",
+   "side": "client",
+   "purpose": "Melty multiplayer: auto Open-to-LAN on world load when DUELCRAFT_LAN_PORT is set (e4mc logs 'Domain assigned: '), auto-join join=<address> from config/duelcraft.properties at the title screen.",
+   "dependsOn": [],
+   "test": "two instances on this PC: host world, second instance joins through the e4mc address, they duel",
+   "verified": true
+  },
+  {
+   "id": "native_build",
+   "javaClass": "tools/build_native.bat",
+   "side": "native",
+   "purpose": "Build duelcraft_native.dll = ocgcore (AGPL) + bcdec BC7 (MIT) + dc_decode_bc7 export with MSVC.",
+   "dependsOn": [],
+   "test": "dll exports OCG_* and dc_decode_bc7",
+   "verified": true
+  },
+  {
+   "id": "table_gen",
+   "javaClass": "tools/gen_tables.py",
+   "side": "tool",
+   "purpose": "Build cards.tsv and the kind/race/attribute/link sheets from Master Duel data with BabelCDB as an oracle (not shipped).",
+   "dependsOn": [],
+   "test": "12,989+ cards convert exactly; overrides cover the rest",
+   "verified": true
+  },
+  {
+   "id": "code_gen",
+   "javaClass": "tools/gen_code.py",
+   "side": "tool",
+   "purpose": "Generate Java from the sheets (one record/entry per row).",
+   "dependsOn": [],
+   "test": "build compiles generated sources",
+   "verified": true
+  },
+  {
+   "id": "preflight",
+   "javaClass": "tools/preflight.py",
+   "side": "tool",
+   "purpose": "Cross every sheet's rows and columns: unfilled cells, unresolved references, deck cards without passcode/script.",
+   "dependsOn": [],
+   "test": "runs clean before each build",
+   "verified": true
+  },
+  {
+   "id": "packaging",
+   "javaClass": "tools/package.ps1",
+   "side": "tool",
+   "purpose": "Release zip: portable Prism Launcher + DuelCraft instance (Fabric 26.3) with duelcraft, fabric-api, e4mc jars and credits.",
+   "dependsOn": [],
+   "test": "inspect_package/validate_recipe/one_click_check pass; Melty Play works on this PC",
+   "verified": false
+  }
+ ]
+}

@@ -1,0 +1,111 @@
+{
+ "sheet": "ui_widgets",
+ "doc": "Duel screen prompt widgets. Each prompt in duel_prompts names one. Each row generates a widget class under dev.duelcraft.client.prompt.",
+ "columns": [
+  "id",
+  "javaClass",
+  "shows",
+  "input",
+  "verified"
+ ],
+ "rows": [
+  {
+   "id": "card_actions",
+   "javaClass": "CardActionsWidget",
+   "shows": "Clicking a card in hand/field lists what it can do now (Summon, Special Summon, Set, Activate <effect>, Change position); buttons for Battle Phase / End Phase / Shuffle.",
+   "input": "click card -> action menu; click phase button",
+   "verified": true
+  },
+  {
+   "id": "phase_actions",
+   "javaClass": "PhaseActionsWidget",
+   "shows": "Battle: attackers glow; click one to attack (opponent then picks target via card_picker); activatable effects; Main Phase 2 / End Phase buttons.",
+   "input": "click attacker or button",
+   "verified": true
+  },
+  {
+   "id": "yes_no",
+   "javaClass": "YesNoWidget",
+   "shows": "Question text (effect description or system string) with the card's art.",
+   "input": "Yes / No buttons",
+   "verified": false
+  },
+  {
+   "id": "option_list",
+   "javaClass": "OptionListWidget",
+   "shows": "A vertical list of option texts.",
+   "input": "click one",
+   "verified": false
+  },
+  {
+   "id": "card_picker",
+   "javaClass": "CardPickerWidget",
+   "shows": "Grid of candidate cards with art, location label, min/max counter; for sums the running total.",
+   "input": "toggle cards, Confirm (enabled when valid), Cancel if allowed",
+   "verified": true
+  },
+  {
+   "id": "card_picker_step",
+   "javaClass": "CardPickerStepWidget",
+   "shows": "Like card_picker but one card per answer; already chosen cards are marked.",
+   "input": "click a card; Finish when finishable",
+   "verified": false
+  },
+  {
+   "id": "chain_prompt",
+   "javaClass": "ChainPromptWidget",
+   "shows": "'Chain an effect?' with the activatable cards.",
+   "input": "click a card to activate, or Pass (unless forced)",
+   "verified": true
+  },
+  {
+   "id": "zone_picker",
+   "javaClass": "ZonePickerWidget",
+   "shows": "Highlights the free zones on the field.",
+   "input": "click zones (count of them)",
+   "verified": true
+  },
+  {
+   "id": "position_picker",
+   "javaClass": "PositionPickerWidget",
+   "shows": "The card in each allowed position (face-up ATK, face-up DEF, face-down DEF...).",
+   "input": "click one",
+   "verified": false
+  },
+  {
+   "id": "sort_list",
+   "javaClass": "SortListWidget",
+   "shows": "Cards in the current order.",
+   "input": "Keep order, or click cards in the order wanted",
+   "verified": false
+  },
+  {
+   "id": "counter_picker",
+   "javaClass": "CounterPickerWidget",
+   "shows": "Cards with counters and +/- steppers, total required.",
+   "input": "steppers then Confirm",
+   "verified": false
+  },
+  {
+   "id": "rps",
+   "javaClass": "RpsWidget",
+   "shows": "Rock / Paper / Scissors buttons.",
+   "input": "click one",
+   "verified": false
+  },
+  {
+   "id": "flag_picker",
+   "javaClass": "FlagPickerWidget",
+   "shows": "Toggle buttons for each available Type or Attribute, 'pick N'.",
+   "input": "toggle then Confirm",
+   "verified": false
+  },
+  {
+   "id": "card_name_search",
+   "javaClass": "CardNameSearchWidget",
+   "shows": "Text box filtering Master Duel card names to the ones allowed; list of matches.",
+   "input": "type, click a match",
+   "verified": false
+  }
+ ]
+}

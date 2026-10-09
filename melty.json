@@ -1,0 +1,86 @@
+{
+ "schemaVersion": 1,
+ "mode": "installed",
+ "games": [
+  {
+   "slug": "minecraft-java",
+   "role": "primary"
+  },
+  {
+   "slug": "custom-yu-gi-oh-master-duel",
+   "role": "secondary"
+  }
+ ],
+ "components": [
+  {
+   "id": "main",
+   "fileName": "duelcraft-*.jar",
+   "label": "DuelCraft mod",
+   "kind": "main",
+   "required": true
+  },
+  {
+   "id": "minecraft",
+   "fileName": "DuelCraft-Minecraft-*.zip",
+   "label": "Minecraft with Fabric (Prism Launcher)",
+   "kind": "extra",
+   "required": true
+  }
+ ],
+ "requirements": [],
+ "mappings": [
+  {
+   "component": "minecraft",
+   "from": "",
+   "to": "{managed}"
+  },
+  {
+   "component": "main",
+   "from": "",
+   "to": "{managed}/Prism/instances/DuelCraft/.minecraft/mods"
+  }
+ ],
+ "launch": {
+  "kind": "exe",
+  "path": "{managed}/Prism/prismlauncher.exe",
+  "args": [
+   "--launch",
+   "DuelCraft"
+  ]
+ },
+ "setup": {
+  "label": "Minecraft",
+  "launch": {
+   "kind": "exe",
+   "path": "{managed}/Prism/prismlauncher.exe",
+   "args": [
+    "--launch",
+    "DuelCraft"
+   ]
+  },
+  "done": {
+   "file": "{managed}/Prism/instances/DuelCraft/.minecraft/logs/latest.log",
+   "contains": "DuelCraft starting"
+  }
+ },
+ "runtimeData": [
+  "{managed}/Prism"
+ ],
+ "multiplayer": {
+  "maxPlayers": 8,
+  "connect": {
+   "address": {
+    "log": "{managed}/Prism/instances/DuelCraft/.minecraft/logs/latest.log",
+    "after": "Domain assigned: "
+   },
+   "hostEnv": {
+    "DUELCRAFT_LAN_PORT": "{port}"
+   },
+   "joinFile": {
+    "path": "{managed}/Prism/instances/DuelCraft/.minecraft/config/duelcraft.properties",
+    "key": "join"
+   }
+  }
+ },
+ "notes": "Needs Yu-Gi-Oh! Master Duel (free on Steam) installed and started once: DuelCraft reads the cards from it. The first start asks you to sign in to Minecraft in Prism Launcher once."
+}

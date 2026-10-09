@@ -1,0 +1,372 @@
+{
+ "sheet": "hint_strings",
+ "doc": "Engine hint ids (CardScripts constant.lua HINTMSG_*) -> the prompt title the duel screen shows (our own wording). Each row becomes an entry in generated HintStrings. Effect descriptions (desc >= 2^20) are shown as '<card name>: effect N' instead.",
+ "columns": [
+  "id",
+  "name",
+  "text",
+  "verified"
+ ],
+ "rows": [
+  {
+   "id": 500,
+   "name": "HINTMSG_RELEASE",
+   "text": "Select card(s) to Tribute",
+   "verified": false
+  },
+  {
+   "id": 501,
+   "name": "HINTMSG_DISCARD",
+   "text": "Select card(s) to discard",
+   "verified": false
+  },
+  {
+   "id": 502,
+   "name": "HINTMSG_DESTROY",
+   "text": "Select card(s) to destroy",
+   "verified": false
+  },
+  {
+   "id": 503,
+   "name": "HINTMSG_REMOVE",
+   "text": "Select card(s) to banish",
+   "verified": false
+  },
+  {
+   "id": 504,
+   "name": "HINTMSG_TOGRAVE",
+   "text": "Select card(s) to send to the GY",
+   "verified": false
+  },
+  {
+   "id": 505,
+   "name": "HINTMSG_RTOHAND",
+   "text": "Select card(s) to return to the hand",
+   "verified": false
+  },
+  {
+   "id": 506,
+   "name": "HINTMSG_ATOHAND",
+   "text": "Select card(s) to add to your hand",
+   "verified": false
+  },
+  {
+   "id": 507,
+   "name": "HINTMSG_TODECK",
+   "text": "Select card(s) to return to the Deck",
+   "verified": false
+  },
+  {
+   "id": 508,
+   "name": "HINTMSG_SUMMON",
+   "text": "Select a monster to Normal Summon",
+   "verified": false
+  },
+  {
+   "id": 509,
+   "name": "HINTMSG_SPSUMMON",
+   "text": "Select monster(s) to Special Summon",
+   "verified": false
+  },
+  {
+   "id": 510,
+   "name": "HINTMSG_SET",
+   "text": "Select card(s) to Set",
+   "verified": false
+  },
+  {
+   "id": 511,
+   "name": "HINTMSG_FMATERIAL",
+   "text": "Select Fusion Material",
+   "verified": false
+  },
+  {
+   "id": 512,
+   "name": "HINTMSG_SMATERIAL",
+   "text": "Select Synchro Material",
+   "verified": false
+  },
+  {
+   "id": 513,
+   "name": "HINTMSG_XMATERIAL",
+   "text": "Select Xyz Material",
+   "verified": false
+  },
+  {
+   "id": 514,
+   "name": "HINTMSG_FACEUP",
+   "text": "Select a face-up card",
+   "verified": false
+  },
+  {
+   "id": 515,
+   "name": "HINTMSG_FACEDOWN",
+   "text": "Select a face-down card",
+   "verified": false
+  },
+  {
+   "id": 516,
+   "name": "HINTMSG_ATTACK",
+   "text": "Select an Attack Position monster",
+   "verified": false
+  },
+  {
+   "id": 517,
+   "name": "HINTMSG_DEFENSE",
+   "text": "Select a Defense Position monster",
+   "verified": false
+  },
+  {
+   "id": 518,
+   "name": "HINTMSG_EQUIP",
+   "text": "Select a card to equip",
+   "verified": false
+  },
+  {
+   "id": 519,
+   "name": "HINTMSG_REMOVEXYZ",
+   "text": "Select material to detach",
+   "verified": false
+  },
+  {
+   "id": 520,
+   "name": "HINTMSG_CONTROL",
+   "text": "Select a monster to take control of",
+   "verified": false
+  },
+  {
+   "id": 521,
+   "name": "HINTMSG_DESREPLACE",
+   "text": "Select a card to destroy instead",
+   "verified": false
+  },
+  {
+   "id": 522,
+   "name": "HINTMSG_FACEUPATTACK",
+   "text": "Select a face-up Attack Position monster",
+   "verified": false
+  },
+  {
+   "id": 523,
+   "name": "HINTMSG_FACEUPDEFENSE",
+   "text": "Select a face-up Defense Position monster",
+   "verified": false
+  },
+  {
+   "id": 524,
+   "name": "HINTMSG_FACEDOWNATTACK",
+   "text": "Select a face-down Attack Position monster",
+   "verified": false
+  },
+  {
+   "id": 525,
+   "name": "HINTMSG_FACEDOWNDEFENSE",
+   "text": "Select a face-down Defense Position monster",
+   "verified": false
+  },
+  {
+   "id": 526,
+   "name": "HINTMSG_CONFIRM",
+   "text": "Select card(s) to reveal",
+   "verified": false
+  },
+  {
+   "id": 527,
+   "name": "HINTMSG_TOFIELD",
+   "text": "Select card(s) to place on the field",
+   "verified": false
+  },
+  {
+   "id": 528,
+   "name": "HINTMSG_POSCHANGE",
+   "text": "Select card(s) to change position",
+   "verified": false
+  },
+  {
+   "id": 529,
+   "name": "HINTMSG_SELF",
+   "text": "Select your card(s)",
+   "verified": false
+  },
+  {
+   "id": 530,
+   "name": "HINTMSG_OPPO",
+   "text": "Select your opponent's card(s)",
+   "verified": false
+  },
+  {
+   "id": 531,
+   "name": "HINTMSG_TRIBUTE",
+   "text": "Select card(s) to Tribute",
+   "verified": false
+  },
+  {
+   "id": 532,
+   "name": "HINTMSG_DEATTACHFROM",
+   "text": "Select a monster to detach material from",
+   "verified": false
+  },
+  {
+   "id": 533,
+   "name": "HINTMSG_LMATERIAL",
+   "text": "Select Link Material",
+   "verified": false
+  },
+  {
+   "id": 549,
+   "name": "HINTMSG_ATTACKTARGET",
+   "text": "Select the attack target",
+   "verified": false
+  },
+  {
+   "id": 550,
+   "name": "HINTMSG_EFFECT",
+   "text": "Select an effect",
+   "verified": false
+  },
+  {
+   "id": 551,
+   "name": "HINTMSG_TARGET",
+   "text": "Select the target(s)",
+   "verified": false
+  },
+  {
+   "id": 552,
+   "name": "HINTMSG_COIN",
+   "text": "Call heads or tails",
+   "verified": false
+  },
+  {
+   "id": 553,
+   "name": "HINTMSG_DICE",
+   "text": "Select a die result",
+   "verified": false
+  },
+  {
+   "id": 554,
+   "name": "HINTMSG_CARDTYPE",
+   "text": "Select a card type",
+   "verified": false
+  },
+  {
+   "id": 555,
+   "name": "HINTMSG_OPTION",
+   "text": "Select an option",
+   "verified": false
+  },
+  {
+   "id": 556,
+   "name": "HINTMSG_RESOLVEEFFECT",
+   "text": "Select an effect to resolve",
+   "verified": false
+  },
+  {
+   "id": 560,
+   "name": "HINTMSG_SELECT",
+   "text": "Select",
+   "verified": false
+  },
+  {
+   "id": 561,
+   "name": "HINTMSG_POSITION",
+   "text": "Select a battle position",
+   "verified": false
+  },
+  {
+   "id": 562,
+   "name": "HINTMSG_ATTRIBUTE",
+   "text": "Declare an Attribute",
+   "verified": false
+  },
+  {
+   "id": 563,
+   "name": "HINTMSG_RACE",
+   "text": "Declare a Type",
+   "verified": false
+  },
+  {
+   "id": 564,
+   "name": "HINTMSG_CODE",
+   "text": "Declare a card name",
+   "verified": false
+  },
+  {
+   "id": 565,
+   "name": "HINTMSG_NUMBER",
+   "text": "Declare a number",
+   "verified": false
+  },
+  {
+   "id": 566,
+   "name": "HINTMSG_EFFACTIVATE",
+   "text": "Select an effect to activate",
+   "verified": false
+  },
+  {
+   "id": 567,
+   "name": "HINTMSG_LVRANK",
+   "text": "Declare a Level/Rank",
+   "verified": false
+  },
+  {
+   "id": 568,
+   "name": "HINTMSG_RESOLVECARD",
+   "text": "Select a card to resolve",
+   "verified": false
+  },
+  {
+   "id": 569,
+   "name": "HINTMSG_ZONE",
+   "text": "Select a zone",
+   "verified": false
+  },
+  {
+   "id": 570,
+   "name": "HINTMSG_DISABLEZONE",
+   "text": "Select a zone to disable",
+   "verified": false
+  },
+  {
+   "id": 571,
+   "name": "HINTMSG_TOZONE",
+   "text": "Select a zone to place it in",
+   "verified": false
+  },
+  {
+   "id": 572,
+   "name": "HINTMSG_COUNTER",
+   "text": "Select card(s) to remove counters from",
+   "verified": false
+  },
+  {
+   "id": 575,
+   "name": "HINTMSG_NEGATE",
+   "text": "Select an effect to negate",
+   "verified": false
+  },
+  {
+   "id": 576,
+   "name": "HINTMSG_ATKDEF",
+   "text": "Select ATK or DEF",
+   "verified": false
+  },
+  {
+   "id": 577,
+   "name": "HINTMSG_APPLYTO",
+   "text": "Select a card to apply it to",
+   "verified": false
+  },
+  {
+   "id": 578,
+   "name": "HINTMSG_ATTACH",
+   "text": "Select card(s) to attach",
+   "verified": false
+  },
+  {
+   "id": 579,
+   "name": "HINTMSG_RTOGRAVE",
+   "text": "Select card(s) to return to the GY",
+   "verified": false
+  }
+ ]
+}

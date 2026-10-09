@@ -1,0 +1,94 @@
+{
+ "sheet": "settings",
+ "doc": "Tunable values. Each row becomes a constant in the generated Settings class.",
+ "columns": [
+  "key",
+  "type",
+  "value",
+  "usedBy",
+  "verified",
+  "doc"
+ ],
+ "rows": [
+  {
+   "key": "STARTING_LP",
+   "type": "int",
+   "value": "8000",
+   "usedBy": "duel_session",
+   "verified": true,
+   "doc": "Life Points each duelist starts with (official 8000)."
+  },
+  {
+   "key": "STARTING_HAND",
+   "type": "int",
+   "value": "5",
+   "usedBy": "duel_session",
+   "verified": true,
+   "doc": "Cards drawn at the start (official 5)."
+  },
+  {
+   "key": "DRAW_PER_TURN",
+   "type": "int",
+   "value": "1",
+   "usedBy": "duel_session",
+   "verified": true,
+   "doc": "Cards drawn each Draw Phase."
+  },
+  {
+   "key": "DUEL_FLAGS",
+   "type": "long",
+   "value": "0x800L | 0x2000L | 0x4000L | 0x8000L | 0x20000L",
+   "usedBy": "duel_session",
+   "verified": true,
+   "doc": "DUEL_MODE_MR5 (Master Rule 5, current rules): PZONE|EMZONE|FSX_MMZONE|TRAP_MONSTERS_NOT_USE_ZONE|TRIGGER_ONLY_IN_LOCATION"
+  },
+  {
+   "key": "MAX_STEPS_PER_TICK",
+   "type": "int",
+   "value": "64",
+   "usedBy": "duel_session",
+   "verified": true,
+   "doc": "OCG_DuelProcess calls per server tick per duel before yielding."
+  },
+  {
+   "key": "AI_THINK_TICKS",
+   "type": "int",
+   "value": "10",
+   "usedBy": "duel_session",
+   "verified": true,
+   "doc": "Ticks the computer waits before answering, so players can follow."
+  },
+  {
+   "key": "CHALLENGE_TIMEOUT_TICKS",
+   "type": "int",
+   "value": "600",
+   "usedBy": "duel_manager",
+   "verified": true,
+   "doc": "Ticks a player challenge stays open (30 s)."
+  },
+  {
+   "key": "MOB_CARD_DROP_CHANCE",
+   "type": "double",
+   "value": "0.08",
+   "usedBy": "card_drops",
+   "verified": false,
+   "doc": "Chance a hostile mob killed by a player drops a random card."
+  },
+  {
+   "key": "BOARD_DISTANCE",
+   "type": "double",
+   "value": "3.0",
+   "usedBy": "board",
+   "verified": true,
+   "doc": "Blocks from each duelist to the center of the duel mat."
+  },
+  {
+   "key": "MIN_DECK",
+   "type": "int",
+   "value": "40",
+   "usedBy": "duel_manager",
+   "verified": true,
+   "doc": "Smallest main deck allowed in a duel (official 40)."
+  }
+ ]
+}

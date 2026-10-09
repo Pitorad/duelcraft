@@ -1,0 +1,83 @@
+{
+ "model": {
+  "type": "minecraft:select",
+  "property": "minecraft:custom_model_data",
+  "index": 0,
+  "cases": [
+   {
+    "when": "normal",
+    "model": {
+     "type": "minecraft:model",
+     "model": "duelcraft:item/card_normal"
+    }
+   },
+   {
+    "when": "effect",
+    "model": {
+     "type": "minecraft:model",
+     "model": "duelcraft:item/card_effect"
+    }
+   },
+   {
+    "when": "fusion",
+    "model": {
+     "type": "minecraft:model",
+     "model": "duelcraft:item/card_fusion"
+    }
+   },
+   {
+    "when": "ritual",
+    "model": {
+     "type": "minecraft:model",
+     "model": "duelcraft:item/card_ritual"
+    }
+   },
+   {
+    "when": "synchro",
+    "model": {
+     "type": "minecraft:model",
+     "model": "duelcraft:item/card_synchro"
+    }
+   },
+   {
+    "when": "xyz",
+    "model": {
+     "type": "minecraft:model",
+     "model": "duelcraft:item/card_xyz"
+    }
+   },
+   {
+    "when": "link",
+    "model": {
+     "type": "minecraft:model",
+     "model": "duelcraft:item/card_link"
+    }
+   },
+   {
+    "when": "spell",
+    "model": {
+     "type": "minecraft:model",
+     "model": "duelcraft:item/card_spell"
+    }
+   },
+   {
+    "when": "trap",
+    "model": {
+     "type": "minecraft:model",
+     "model": "duelcraft:item/card_trap"
+    }
+   },
+   {
+    "when": "token",
+    "model": {
+     "type": "minecraft:model",
+     "model": "duelcraft:item/card_token"
+    }
+   }
+  ],
+  "fallback": {
+   "type": "minecraft:model",
+   "model": "duelcraft:item/card_normal"
+  }
+ }
+}

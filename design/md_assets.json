@@ -1,0 +1,60 @@
+{
+ "sheet": "md_assets",
+ "doc": "Master Duel files the mod reads from the player's install at runtime (never shipped). path = Unity container path pattern inside LocalData bundles.",
+ "columns": [
+  "id",
+  "path",
+  "unityType",
+  "format",
+  "decode",
+  "usedBy",
+  "verified"
+ ],
+ "rows": [
+  {
+   "id": "card_prop",
+   "path": "assets/resourcesassetbundle/card/data/<hash>/en-us/card_prop.bytes",
+   "unityType": "TextAsset",
+   "format": "8 bytes per card (u32 a1, u32 a2)",
+   "decode": "decrypt key brute force (zlib), bitfields per MODLOG",
+   "usedBy": "md_card_tables",
+   "verified": true
+  },
+  {
+   "id": "card_indx",
+   "path": "assets/resourcesassetbundle/card/data/<hash>/en-us/card_indx.bytes",
+   "unityType": "TextAsset",
+   "format": "u32 pairs (name offset, text offset); row i = card_prop row i",
+   "decode": "decrypt",
+   "usedBy": "md_card_tables",
+   "verified": true
+  },
+  {
+   "id": "card_name",
+   "path": "assets/resourcesassetbundle/card/data/<hash>/en-us/card_name.bytes",
+   "unityType": "TextAsset",
+   "format": "UTF-8 NUL-terminated strings",
+   "decode": "decrypt",
+   "usedBy": "md_card_tables",
+   "verified": true
+  },
+  {
+   "id": "card_desc",
+   "path": "assets/resourcesassetbundle/card/data/<hash>/en-us/card_desc.bytes",
+   "unityType": "TextAsset",
+   "format": "UTF-8 NUL-terminated strings (effect/flavor text)",
+   "decode": "decrypt",
+   "usedBy": "md_card_tables",
+   "verified": true
+  },
+  {
+   "id": "card_illust",
+   "path": "assets/resources/card/images/illust/{tcg,common}/<cid/1000>/<cid>.bmp (also resourcesassetbundle/card/images/illust/tcg/<cid>.bmp)",
+   "unityType": "Texture2D",
+   "format": "512x512 BC7 (format 25), data in the bundle's .resS node",
+   "decode": "native dc_decode_bc7, flip vertically",
+   "usedBy": "art_cache",
+   "verified": true
+  }
+ ]
+}

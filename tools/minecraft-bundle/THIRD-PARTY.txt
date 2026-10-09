@@ -1,0 +1,29 @@
+DuelCraft ships this copy of Minecraft's launcher setup so Melty can start Minecraft with DuelCraft in one click.
+It contains no Minecraft and no Yu-Gi-Oh! Master Duel files: Prism Launcher downloads Minecraft after you sign in
+with a Microsoft account that owns Minecraft: Java Edition, and DuelCraft reads the cards (names, text, stats, art)
+from your own Yu-Gi-Oh! Master Duel install (free on Steam) each time you play.
+
+DuelCraft {VERSION} (Prism/instances/DuelCraft/.minecraft/mods/duelcraft-*.jar)
+  License: GNU Affero General Public License v3.0 or later (LICENSE.txt)
+  Source:  see SOURCE.txt
+  Includes:
+    - EDOPro duel engine "ocgcore" (github.com/edo9300/ygopro-core, {OCG_REV}) by Edoardo Lolletti and the YGOPro
+      authors: AGPL-3.0-or-later. Built into duelcraft_native.dll.
+    - Lua 5.4 (lua.org), MIT, compiled into the engine.
+    - Project Ignis CardScripts (github.com/ProjectIgnis/CardScripts, {SCRIPTS_REV}): AGPL-3.0 (cardscripts.zip).
+    - bcdec by Sergii Kudlai (github.com/iOrange/bcdec): MIT, texture decoding in duelcraft_native.dll.
+    - XZ for Java 1.10 (tukaani.org/xz/java): 0BSD.
+    - Unity common type-name table from UnityPy (github.com/K0lb3/UnityPy): MIT.
+
+Prism Launcher {PRISM_VERSION} (Prism/, the unmodified portable Windows build)
+  License: GNU General Public License v3.0 (Prism/LICENSE-PrismLauncher.txt)
+  Source:  https://github.com/PrismLauncher/PrismLauncher/tree/{PRISM_VERSION}
+
+Fabric Loader / Fabric API (installed by Prism / mods/fabric-api-*.jar)
+  License: Apache License 2.0. Source: https://github.com/FabricMC/fabric
+
+e4mc (mods/e4mc-*.jar): lets friends join your world over the internet
+  License: MIT. Source: https://github.com/vgskye/e4mc-minecraft-architectury
+
+Yu-Gi-Oh! and Master Duel are trademarks of Konami; Minecraft is a trademark of Mojang/Microsoft. DuelCraft is a
+fan-made mod, not affiliated with or endorsed by them.

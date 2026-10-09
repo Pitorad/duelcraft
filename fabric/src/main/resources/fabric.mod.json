@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "duelcraft",
+  "version": "${version}",
+  "name": "DuelCraft",
+  "description": "Collect real Yu-Gi-Oh! Master Duel cards in Minecraft and duel mobs and friends under the official rules.",
+  "authors": ["Pitorad"],
+  "license": "AGPL-3.0-or-later",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.duelcraft.DuelCraft"],
+    "client": ["dev.duelcraft.client.DuelCraftClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

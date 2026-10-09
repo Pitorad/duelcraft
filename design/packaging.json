@@ -1,0 +1,13 @@
+{
+ "sheet": "packaging",
+ "doc": "Every file in the release and where it comes from. Third-party files are fetched by tools/package.ps1 from their official source with a pinned hash. Nothing from Master Duel or Minecraft is shipped.",
+ "columns": ["file", "source", "license", "credit", "destination", "verified"],
+ "rows": [
+  {"file": "Prism/ (portable Prism Launcher 11.1.1, Windows MSVC)", "source": "https://github.com/PrismLauncher/PrismLauncher/releases/download/11.1.1/PrismLauncher-Windows-MSVC-Portable-11.1.1.zip (sha256 ab35a770...)", "license": "GPL-3.0", "credit": "Prism Launcher contributors", "destination": "{localappdata}/DuelCraft/Prism", "verified": false},
+  {"file": "Prism/instances/DuelCraft/instance.cfg + mmc-pack.json", "source": "tools/minecraft-bundle (ours): Minecraft 26.3, Fabric Loader 0.19.5", "license": "AGPL-3.0-or-later", "credit": "DuelCraft", "destination": "{localappdata}/DuelCraft/Prism/instances/DuelCraft", "verified": false},
+  {"file": "mods/duelcraft-<version>.jar (with duelcraft_native.dll, cardscripts.zip, cards.tsv inside)", "source": "fabric build", "license": "AGPL-3.0-or-later", "credit": "DuelCraft (Pitorad); ocgcore by edo9300 & YGOPro authors (AGPL-3.0); CardScripts by Project Ignis (AGPL-3.0); bcdec by Sergii Kudlai (MIT); Lua (MIT)", "destination": "instance .minecraft/mods", "verified": false},
+  {"file": "mods/fabric-api-0.161.0+26.3.jar", "source": "https://cdn.modrinth.com/data/P7dR8mSH/versions/bNnaTiuM/fabric-api-0.161.0%2B26.3.jar (sha512 pinned)", "license": "Apache-2.0", "credit": "FabricMC", "destination": "instance .minecraft/mods", "verified": false},
+  {"file": "mods/e4mc-fabric-6.2.2-modern.jar", "source": "https://cdn.modrinth.com/data/qANg5Jrr/versions/AouleFRY/e4mc-fabric-6.2.2-modern.jar (sha512 pinned)", "license": "MIT", "credit": "e4mc (vgskye)", "destination": "instance .minecraft/mods", "verified": false},
+  {"file": "THIRD-PARTY.txt + LICENSE + SOURCE.txt", "source": "ours", "license": "n/a", "credit": "lists every credit above and where the AGPL source is", "destination": "{localappdata}/DuelCraft", "verified": false}
+ ]
+}

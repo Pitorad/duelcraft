@@ -1,0 +1,70 @@
+{
+ "sheet": "payloads",
+ "doc": "Network payloads (Fabric CustomPacketPayload). Each row generates a record with a StreamCodec. Field types: int, long, bool, string, bytes, intlist, uuid.",
+ "columns": [
+  "id",
+  "record",
+  "direction",
+  "fields",
+  "handler",
+  "verified"
+ ],
+ "rows": [
+  {
+   "id": "duel_start",
+   "record": "DuelStartPayload",
+   "direction": "s2c",
+   "fields": "duelId:int, seat:int, opponentName:string, opponentIsMob:bool, boardEntityId:int",
+   "handler": "duel_screen",
+   "verified": true
+  },
+  {
+   "id": "duel_state",
+   "record": "DuelStatePayload",
+   "direction": "s2c",
+   "fields": "duelId:int, turn:int, turnPlayer:int, phase:int, lp0:int, lp1:int, cards:bytes",
+   "handler": "duel_screen",
+   "verified": true
+  },
+  {
+   "id": "duel_event",
+   "record": "DuelEventPayload",
+   "direction": "s2c",
+   "fields": "duelId:int, msgId:int, text:string, cid:int, player:int, amount:int",
+   "handler": "duel_screen",
+   "verified": true
+  },
+  {
+   "id": "duel_prompt",
+   "record": "DuelPromptPayload",
+   "direction": "s2c",
+   "fields": "duelId:int, promptSeq:int, msgId:int, hintDesc:long, raw:bytes",
+   "handler": "duel_screen",
+   "verified": true
+  },
+  {
+   "id": "duel_response",
+   "record": "DuelResponsePayload",
+   "direction": "c2s",
+   "fields": "duelId:int, promptSeq:int, response:bytes",
+   "handler": "duel_manager",
+   "verified": true
+  },
+  {
+   "id": "duel_end",
+   "record": "DuelEndPayload",
+   "direction": "s2c",
+   "fields": "duelId:int, winner:int, reason:string, rewardCid:int",
+   "handler": "duel_screen",
+   "verified": true
+  },
+  {
+   "id": "duel_forfeit",
+   "record": "DuelForfeitPayload",
+   "direction": "c2s",
+   "fields": "duelId:int",
+   "handler": "duel_manager",
+   "verified": false
+  }
+ ]
+}

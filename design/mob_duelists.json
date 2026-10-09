@@ -1,0 +1,83 @@
+{
+ "sheet": "mob_duelists",
+ "doc": "Which mobs accept a duel and with what deck. entity = Minecraft entity type id, or '*' for any other mob. rewardChance = chance the winner also gets a card from the loser's deck (always 1 card for beating a mob).",
+ "columns": [
+  "entity",
+  "deck",
+  "title",
+  "rewardCards",
+  "verified"
+ ],
+ "rows": [
+  {
+   "entity": "minecraft:villager",
+   "deck": "dragons",
+   "title": "Villager Duelist",
+   "rewardCards": 1,
+   "verified": true
+  },
+  {
+   "entity": "minecraft:wandering_trader",
+   "deck": "dragons",
+   "title": "Wandering Card Trader",
+   "rewardCards": 2,
+   "verified": false
+  },
+  {
+   "entity": "minecraft:zombie",
+   "deck": "undead",
+   "title": "Zombie Duelist",
+   "rewardCards": 1,
+   "verified": true
+  },
+  {
+   "entity": "minecraft:husk",
+   "deck": "undead",
+   "title": "Husk Duelist",
+   "rewardCards": 1,
+   "verified": false
+  },
+  {
+   "entity": "minecraft:drowned",
+   "deck": "undead",
+   "title": "Drowned Duelist",
+   "rewardCards": 1,
+   "verified": false
+  },
+  {
+   "entity": "minecraft:zombie_villager",
+   "deck": "undead",
+   "title": "Zombie Villager Duelist",
+   "rewardCards": 1,
+   "verified": false
+  },
+  {
+   "entity": "minecraft:skeleton",
+   "deck": "undead",
+   "title": "Skeleton Duelist",
+   "rewardCards": 1,
+   "verified": false
+  },
+  {
+   "entity": "minecraft:stray",
+   "deck": "undead",
+   "title": "Stray Duelist",
+   "rewardCards": 1,
+   "verified": false
+  },
+  {
+   "entity": "minecraft:wither_skeleton",
+   "deck": "undead",
+   "title": "Wither Skeleton Duelist",
+   "rewardCards": 2,
+   "verified": false
+  },
+  {
+   "entity": "*",
+   "deck": "dragons",
+   "title": "Wild Duelist",
+   "rewardCards": 1,
+   "verified": false
+  }
+ ]
+}

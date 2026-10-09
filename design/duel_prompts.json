@@ -1,0 +1,226 @@
+{
+ "sheet": "duel_prompts",
+ "doc": "Every ocgcore message that waits for a player's answer (source: third_party/ocgcore/playerop.cpp). layout: fields after the message id byte; types u8/u16/u32/u64/i32; 'loc' = con:u8,loc:u8,seq:u32,pos:u32; list<count type>[fields] repeats. response: what OCG_DuelSetResponse receives. Each row generates a record + decoder (gen_code.py).",
+ "columns": [
+  "msgId",
+  "name",
+  "record",
+  "layout",
+  "response",
+  "uiWidget",
+  "aiPolicy",
+  "verified"
+ ],
+ "rows": [
+  {
+   "msgId": 10,
+   "name": "MSG_SELECT_BATTLECMD",
+   "record": "SelectBattleCmd",
+   "layout": "player:u8, chains:list<u32>[code:u32,con:u8,loc:u8,seq:u32,desc:u64,mode:u8], attackers:list<u32>[code:u32,con:u8,loc:u8,seq:u8,direct:u8], canM2:u8, canEp:u8",
+   "response": "i32 (index<<16)|action; action 0=activate chains[index], 1=attack with attackers[index], 2=Main Phase 2, 3=End Phase",
+   "uiWidget": "phase_actions",
+   "aiPolicy": "ai_battle",
+   "verified": true
+  },
+  {
+   "msgId": 11,
+   "name": "MSG_SELECT_IDLECMD",
+   "record": "SelectIdleCmd",
+   "layout": "player:u8, summonable:list<u32>[code:u32,con:u8,loc:u8,seq:u32], spsummonable:list<u32>[code:u32,con:u8,loc:u8,seq:u32], repositionable:list<u32>[code:u32,con:u8,loc:u8,seq:u8], msetable:list<u32>[code:u32,con:u8,loc:u8,seq:u32], ssetable:list<u32>[code:u32,con:u8,loc:u8,seq:u32], activatable:list<u32>[code:u32,con:u8,loc:u8,seq:u32,desc:u64,mode:u8], canBp:u8, canEp:u8, canShuffle:u8",
+   "response": "i32 (index<<16)|action; 0 summon,1 special summon,2 change position,3 set monster,4 set spell/trap,5 activate,6 Battle Phase,7 End Phase,8 shuffle hand",
+   "uiWidget": "card_actions",
+   "aiPolicy": "ai_idle",
+   "verified": true
+  },
+  {
+   "msgId": 12,
+   "name": "MSG_SELECT_EFFECTYN",
+   "record": "SelectEffectYn",
+   "layout": "player:u8, code:u32, where:loc, desc:u64",
+   "response": "i32 1 yes / 0 no",
+   "uiWidget": "yes_no",
+   "aiPolicy": "ai_yes",
+   "verified": true
+  },
+  {
+   "msgId": 13,
+   "name": "MSG_SELECT_YESNO",
+   "record": "SelectYesNo",
+   "layout": "player:u8, desc:u64",
+   "response": "i32 1 yes / 0 no",
+   "uiWidget": "yes_no",
+   "aiPolicy": "ai_yes",
+   "verified": true
+  },
+  {
+   "msgId": 14,
+   "name": "MSG_SELECT_OPTION",
+   "record": "SelectOption",
+   "layout": "player:u8, options:list<u8>[desc:u64]",
+   "response": "i32 option index",
+   "uiWidget": "option_list",
+   "aiPolicy": "ai_first",
+   "verified": true
+  },
+  {
+   "msgId": 15,
+   "name": "MSG_SELECT_CARD",
+   "record": "SelectCard",
+   "layout": "player:u8, cancelable:u8, min:u32, max:u32, cards:list<u32>[code:u32,where:loc]",
+   "response": "i32 0, i32 count, i32[count] indices into cards; or i32 -1 to cancel when cancelable",
+   "uiWidget": "card_picker",
+   "aiPolicy": "ai_pick_min",
+   "verified": true
+  },
+  {
+   "msgId": 16,
+   "name": "MSG_SELECT_CHAIN",
+   "record": "SelectChain",
+   "layout": "player:u8, speCount:u8, forced:u8, hint0:u32, hint1:u32, chains:list<u32>[code:u32,where:loc,desc:u64,mode:u8]",
+   "response": "i32 chain index, or -1 to not chain (only when not forced)",
+   "uiWidget": "chain_prompt",
+   "aiPolicy": "ai_chain",
+   "verified": true
+  },
+  {
+   "msgId": 18,
+   "name": "MSG_SELECT_PLACE",
+   "record": "SelectPlace",
+   "layout": "player:u8, count:u8, blocked:u32",
+   "response": "count x (u8 player, u8 location 4=MZONE/8=SZONE, u8 sequence); a set bit in blocked = zone NOT available (bits 0-6 own mzone, 8-12 own szone, 14-15 own pzone, +16 for opponent)",
+   "uiWidget": "zone_picker",
+   "aiPolicy": "ai_place",
+   "verified": true
+  },
+  {
+   "msgId": 19,
+   "name": "MSG_SELECT_POSITION",
+   "record": "SelectPosition",
+   "layout": "player:u8, code:u32, positions:u8",
+   "response": "i32 one POS_ bit that is in positions",
+   "uiWidget": "position_picker",
+   "aiPolicy": "ai_position",
+   "verified": true
+  },
+  {
+   "msgId": 20,
+   "name": "MSG_SELECT_TRIBUTE",
+   "record": "SelectTribute",
+   "layout": "player:u8, cancelable:u8, min:u32, max:u32, cards:list<u32>[code:u32,con:u8,loc:u8,seq:u32,releaseParam:u8]",
+   "response": "same as MSG_SELECT_CARD; sum of releaseParam of chosen >= min",
+   "uiWidget": "card_picker",
+   "aiPolicy": "ai_tribute",
+   "verified": true
+  },
+  {
+   "msgId": 21,
+   "name": "MSG_SORT_CHAIN",
+   "record": "SortChain",
+   "layout": "player:u8, cards:list<u32>[code:u32,con:u8,loc:u32,seq:u32]",
+   "response": "i8 -1 to keep the default order, or i8 per card = its new position",
+   "uiWidget": "sort_list",
+   "aiPolicy": "ai_sort_default",
+   "verified": false
+  },
+  {
+   "msgId": 22,
+   "name": "MSG_SELECT_COUNTER",
+   "record": "SelectCounter",
+   "layout": "player:u8, counterType:u16, count:u16, cards:list<u32>[code:u32,con:u8,loc:u8,seq:u8,counters:u16]",
+   "response": "i16 per card: counters removed from it; total == count",
+   "uiWidget": "counter_picker",
+   "aiPolicy": "ai_counter",
+   "verified": false
+  },
+  {
+   "msgId": 23,
+   "name": "MSG_SELECT_SUM",
+   "record": "SelectSum",
+   "layout": "player:u8, mode:u8, target:u32, min:u32, max:u32, must:list<u32>[code:u32,where:loc,param:u32], cards:list<u32>[code:u32,where:loc,param:u32]",
+   "response": "same as MSG_SELECT_CARD over cards (must are always included); param low/high 16 bits = values; mode 0 exact sum, 1 at least",
+   "uiWidget": "card_picker",
+   "aiPolicy": "ai_sum",
+   "verified": false
+  },
+  {
+   "msgId": 24,
+   "name": "MSG_SELECT_DISFIELD",
+   "record": "SelectDisfield",
+   "layout": "player:u8, count:u8, blocked:u32",
+   "response": "same as MSG_SELECT_PLACE",
+   "uiWidget": "zone_picker",
+   "aiPolicy": "ai_place_opponent",
+   "verified": false
+  },
+  {
+   "msgId": 25,
+   "name": "MSG_SORT_CARD",
+   "record": "SortCard",
+   "layout": "player:u8, cards:list<u32>[code:u32,con:u8,loc:u32,seq:u32]",
+   "response": "same as MSG_SORT_CHAIN",
+   "uiWidget": "sort_list",
+   "aiPolicy": "ai_sort_default",
+   "verified": false
+  },
+  {
+   "msgId": 26,
+   "name": "MSG_SELECT_UNSELECT_CARD",
+   "record": "SelectUnselectCard",
+   "layout": "player:u8, finishable:u8, cancelable:u8, min:u32, max:u32, selectable:list<u32>[code:u32,where:loc], selected:list<u32>[code:u32,where:loc]",
+   "response": "i32 1, i32 index (selectable then selected); or i32 -1 to finish/cancel",
+   "uiWidget": "card_picker_step",
+   "aiPolicy": "ai_unselect",
+   "verified": true
+  },
+  {
+   "msgId": 132,
+   "name": "MSG_ROCK_PAPER_SCISSORS",
+   "record": "RockPaperScissors",
+   "layout": "player:u8",
+   "response": "i32 1 scissors, 2 rock, 3 paper",
+   "uiWidget": "rps",
+   "aiPolicy": "ai_random_rps",
+   "verified": false
+  },
+  {
+   "msgId": 140,
+   "name": "MSG_ANNOUNCE_RACE",
+   "record": "AnnounceRace",
+   "layout": "player:u8, count:u8, available:u64",
+   "response": "u64 with exactly count bits from available",
+   "uiWidget": "flag_picker",
+   "aiPolicy": "ai_flags",
+   "verified": false
+  },
+  {
+   "msgId": 141,
+   "name": "MSG_ANNOUNCE_ATTRIB",
+   "record": "AnnounceAttrib",
+   "layout": "player:u8, count:u8, available:u32",
+   "response": "u32 with exactly count bits from available",
+   "uiWidget": "flag_picker",
+   "aiPolicy": "ai_flags",
+   "verified": false
+  },
+  {
+   "msgId": 142,
+   "name": "MSG_ANNOUNCE_CARD",
+   "record": "AnnounceCard",
+   "layout": "player:u8, opcodes:list<u8>[op:u64]",
+   "response": "i32 passcode that satisfies the opcode program (is_declarable)",
+   "uiWidget": "card_name_search",
+   "aiPolicy": "ai_declare",
+   "verified": false
+  },
+  {
+   "msgId": 143,
+   "name": "MSG_ANNOUNCE_NUMBER",
+   "record": "AnnounceNumber",
+   "layout": "player:u8, options:list<u8>[value:u64]",
+   "response": "i32 option index",
+   "uiWidget": "option_list",
+   "aiPolicy": "ai_first",
+   "verified": false
+  }
+ ]
+}

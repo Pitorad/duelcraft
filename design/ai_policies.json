@@ -1,0 +1,114 @@
+{
+ "sheet": "ai_policies",
+ "doc": "How the computer duelist answers each prompt. Each row is one method in DuelAi. fallback = what to send if the engine answers MSG_RETRY to the first choice; after a second retry the AI concedes (logged).",
+ "columns": [
+  "id",
+  "rule",
+  "fallback",
+  "verified"
+ ],
+ "rows": [
+  {
+   "id": "ai_idle",
+   "rule": "Up to 12 actions per turn: activate a spell/effect that isn't a trap card (60% each time offered, never the same effect 3 times in a turn); else Normal Summon the highest-ATK summonable; else Special Summon the first available; else set a trap/spell (ssetable) if any; else go to Battle Phase if in Main 1 and it has a face-up attack monster, else End Phase.",
+   "fallback": "End Phase (7), or Battle Phase (6) if End Phase is not offered",
+   "verified": true
+  },
+  {
+   "id": "ai_battle",
+   "rule": "Attack with each attacker once (highest ATK first); when none left, Main Phase 2 if offered else End Phase. Never activate in battle unless it is the only option.",
+   "fallback": "End Phase (3), else Main Phase 2 (2)",
+   "verified": true
+  },
+  {
+   "id": "ai_yes",
+   "rule": "Answer yes.",
+   "fallback": "no",
+   "verified": true
+  },
+  {
+   "id": "ai_first",
+   "rule": "Pick option 0.",
+   "fallback": "option 1",
+   "verified": true
+  },
+  {
+   "id": "ai_pick_min",
+   "rule": "Pick max(min,1) cards (not more than max), preferring cards controlled by the opponent when the card list has both sides, else the first ones.",
+   "fallback": "first min cards in list order, or cancel if allowed",
+   "verified": true
+  },
+  {
+   "id": "ai_chain",
+   "rule": "Forced: chain index 0. Otherwise activate index 0 with 50% chance when the chain has fewer than 3 links and no own link yet; else pass (-1).",
+   "fallback": "pass, or 0 when forced",
+   "verified": true
+  },
+  {
+   "id": "ai_place",
+   "rule": "Own zones first: middle monster zone outward (2,1,3,0,4), extra monster zones, spell/trap zones middle outward; first available per 'blocked' bits; repeat for count.",
+   "fallback": "scan every zone bit in order",
+   "verified": true
+  },
+  {
+   "id": "ai_place_opponent",
+   "rule": "Same order as ai_place but on the opponent's side first (disabling/targeting their zones).",
+   "fallback": "scan every zone bit in order",
+   "verified": false
+  },
+  {
+   "id": "ai_position",
+   "rule": "Face-up attack if allowed, else face-up defense, else face-down defense, else face-down attack.",
+   "fallback": "lowest allowed bit",
+   "verified": true
+  },
+  {
+   "id": "ai_tribute",
+   "rule": "Choose the lowest-ATK cards (by DuelState) until releaseParam total >= min.",
+   "fallback": "first cards in list order until total >= min",
+   "verified": true
+  },
+  {
+   "id": "ai_sort_default",
+   "rule": "Keep default order (-1).",
+   "fallback": "identity order",
+   "verified": false
+  },
+  {
+   "id": "ai_counter",
+   "rule": "Take counters from cards in list order until count is reached.",
+   "fallback": "same, reversed order",
+   "verified": false
+  },
+  {
+   "id": "ai_sum",
+   "rule": "Depth-first search the subsets of cards (must cards always counted) for one meeting the target exactly (mode 0) or at least with no removable card (mode 1), respecting min/max.",
+   "fallback": "all cards",
+   "verified": false
+  },
+  {
+   "id": "ai_unselect",
+   "rule": "Finish (-1) when finishable; else select the first selectable card.",
+   "fallback": "first selected card",
+   "verified": true
+  },
+  {
+   "id": "ai_random_rps",
+   "rule": "Random 1-3.",
+   "fallback": "1",
+   "verified": false
+  },
+  {
+   "id": "ai_flags",
+   "rule": "Take the lowest 'count' bits of available.",
+   "fallback": "highest bits",
+   "verified": false
+  },
+  {
+   "id": "ai_declare",
+   "rule": "Evaluate the opcode program (port of is_declarable) over CardDb and declare the first passcode that passes, preferring cards in the opponent's deck.",
+   "fallback": "next passing passcode",
+   "verified": false
+  }
+ ]
+}

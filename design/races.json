@@ -1,0 +1,214 @@
+{
+ "sheet": "races",
+ "doc": "Master Duel race id (a2>>21 & 31) -> ocgcore RACE_ bit.",
+ "rows": [
+  {
+   "mdRace": 0,
+   "engineRace": 0,
+   "name": "NONE",
+   "cardsAgree": 8,
+   "cardsSeen": 9,
+   "verified": true
+  },
+  {
+   "mdRace": 1,
+   "engineRace": 8192,
+   "name": "Dragon",
+   "cardsAgree": 803,
+   "cardsSeen": 803,
+   "verified": true
+  },
+  {
+   "mdRace": 2,
+   "engineRace": 16,
+   "name": "Zombie",
+   "cardsAgree": 281,
+   "cardsSeen": 281,
+   "verified": true
+  },
+  {
+   "mdRace": 3,
+   "engineRace": 8,
+   "name": "Fiend",
+   "cardsAgree": 923,
+   "cardsSeen": 923,
+   "verified": true
+  },
+  {
+   "mdRace": 4,
+   "engineRace": 128,
+   "name": "Pyro",
+   "cardsAgree": 166,
+   "cardsSeen": 166,
+   "verified": true
+  },
+  {
+   "mdRace": 5,
+   "engineRace": 262144,
+   "name": "Sea Serpent",
+   "cardsAgree": 98,
+   "cardsSeen": 98,
+   "verified": true
+  },
+  {
+   "mdRace": 6,
+   "engineRace": 256,
+   "name": "Rock",
+   "cardsAgree": 274,
+   "cardsSeen": 274,
+   "verified": true
+  },
+  {
+   "mdRace": 7,
+   "engineRace": 32,
+   "name": "Machine",
+   "cardsAgree": 1071,
+   "cardsSeen": 1071,
+   "verified": true
+  },
+  {
+   "mdRace": 8,
+   "engineRace": 131072,
+   "name": "Fish",
+   "cardsAgree": 151,
+   "cardsSeen": 151,
+   "verified": true
+  },
+  {
+   "mdRace": 9,
+   "engineRace": 65536,
+   "name": "Dinosaur",
+   "cardsAgree": 153,
+   "cardsSeen": 153,
+   "verified": true
+  },
+  {
+   "mdRace": 10,
+   "engineRace": 2048,
+   "name": "Insect",
+   "cardsAgree": 274,
+   "cardsSeen": 274,
+   "verified": true
+  },
+  {
+   "mdRace": 11,
+   "engineRace": 16384,
+   "name": "Beast",
+   "cardsAgree": 444,
+   "cardsSeen": 444,
+   "verified": true
+  },
+  {
+   "mdRace": 12,
+   "engineRace": 32768,
+   "name": "Beast-Warrior",
+   "cardsAgree": 264,
+   "cardsSeen": 264,
+   "verified": true
+  },
+  {
+   "mdRace": 13,
+   "engineRace": 1024,
+   "name": "Plant",
+   "cardsAgree": 271,
+   "cardsSeen": 271,
+   "verified": true
+  },
+  {
+   "mdRace": 14,
+   "engineRace": 64,
+   "name": "Aqua",
+   "cardsAgree": 294,
+   "cardsSeen": 294,
+   "verified": true
+  },
+  {
+   "mdRace": 15,
+   "engineRace": 1,
+   "name": "Warrior",
+   "cardsAgree": 1157,
+   "cardsSeen": 1157,
+   "verified": true
+  },
+  {
+   "mdRace": 16,
+   "engineRace": 512,
+   "name": "Winged Beast",
+   "cardsAgree": 334,
+   "cardsSeen": 334,
+   "verified": true
+  },
+  {
+   "mdRace": 17,
+   "engineRace": 4,
+   "name": "Fairy",
+   "cardsAgree": 587,
+   "cardsSeen": 587,
+   "verified": true
+  },
+  {
+   "mdRace": 18,
+   "engineRace": 2,
+   "name": "Spellcaster",
+   "cardsAgree": 808,
+   "cardsSeen": 808,
+   "verified": true
+  },
+  {
+   "mdRace": 19,
+   "engineRace": 4096,
+   "name": "Thunder",
+   "cardsAgree": 155,
+   "cardsSeen": 155,
+   "verified": true
+  },
+  {
+   "mdRace": 20,
+   "engineRace": 524288,
+   "name": "Reptile",
+   "cardsAgree": 198,
+   "cardsSeen": 198,
+   "verified": true
+  },
+  {
+   "mdRace": 21,
+   "engineRace": 1048576,
+   "name": "Psychic",
+   "cardsAgree": 212,
+   "cardsSeen": 212,
+   "verified": true
+  },
+  {
+   "mdRace": 22,
+   "engineRace": 8388608,
+   "name": "Wyrm",
+   "cardsAgree": 104,
+   "cardsSeen": 104,
+   "verified": true
+  },
+  {
+   "mdRace": 23,
+   "engineRace": 16777216,
+   "name": "Cyberse",
+   "cardsAgree": 299,
+   "cardsSeen": 299,
+   "verified": true
+  },
+  {
+   "mdRace": 24,
+   "engineRace": 2097152,
+   "name": "Divine-Beast",
+   "cardsAgree": 8,
+   "cardsSeen": 8,
+   "verified": true
+  },
+  {
+   "mdRace": 25,
+   "engineRace": 33554432,
+   "name": "Illusion",
+   "cardsAgree": 54,
+   "cardsSeen": 54,
+   "verified": true
+  }
+ ]
+}

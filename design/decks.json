@@ -1,0 +1,455 @@
+{
+ "sheet": "decks",
+ "doc": "Decks the mod hands out or the computer duels with. Cards are Master Duel English names (resolved to cids/passcodes by preflight from the player's Master Duel data at build time; the generated Decks.java holds cids only). main 40-60, extra 0-15.",
+ "columns": [
+  "id",
+  "displayName",
+  "usedBy",
+  "main",
+  "extra",
+  "verified"
+ ],
+ "rows": [
+  {
+   "id": "starter",
+   "displayName": "Duelist's Starter Deck",
+   "usedBy": "starter_deck",
+   "main": [
+    [
+     "Dark Magician",
+     2
+    ],
+    [
+     "Summoned Skull",
+     1
+    ],
+    [
+     "Gaia The Fierce Knight",
+     1
+    ],
+    [
+     "Celtic Guardian",
+     2
+    ],
+    [
+     "Beta The Magnet Warrior",
+     2
+    ],
+    [
+     "Alpha The Magnet Warrior",
+     1
+    ],
+    [
+     "Gamma The Magnet Warrior",
+     1
+    ],
+    [
+     "Mystical Elf",
+     2
+    ],
+    [
+     "Giant Soldier of Stone",
+     2
+    ],
+    [
+     "Big Shield Gardna",
+     1
+    ],
+    [
+     "Kuriboh",
+     1
+    ],
+    [
+     "Dark Magician Girl",
+     1
+    ],
+    [
+     "Skilled Dark Magician",
+     1
+    ],
+    [
+     "Magician's Valkyria",
+     2
+    ],
+    [
+     "Dark Magic Attack",
+     1
+    ],
+    [
+     "Thousand Knives",
+     1
+    ],
+    [
+     "Monster Reborn",
+     1
+    ],
+    [
+     "Swords of Revealing Light",
+     1
+    ],
+    [
+     "Dark Hole",
+     1
+    ],
+    [
+     "Mystical Space Typhoon",
+     2
+    ],
+    [
+     "Book of Secret Arts",
+     1
+    ],
+    [
+     "Magical Dimension",
+     1
+    ],
+    [
+     "Rush Recklessly",
+     2
+    ],
+    [
+     "Pot of Greed",
+     1
+    ],
+    [
+     "Mirror Force",
+     1
+    ],
+    [
+     "Magic Cylinder",
+     1
+    ],
+    [
+     "Spellbinding Circle",
+     2
+    ],
+    [
+     "Trap Hole",
+     2
+    ],
+    [
+     "Negate Attack",
+     1
+    ],
+    [
+     "Waboku",
+     1
+    ]
+   ],
+   "extra": [],
+   "verified": true
+  },
+  {
+   "id": "dragons",
+   "displayName": "Blue-Eyes Beatdown",
+   "usedBy": "mob_duelist",
+   "main": [
+    [
+     "Blue-Eyes White Dragon",
+     3
+    ],
+    [
+     "Lord of D.",
+     1
+    ],
+    [
+     "Battle Ox",
+     2
+    ],
+    [
+     "Vorse Raider",
+     2
+    ],
+    [
+     "La Jinn the Mystical Genie of the Lamp",
+     2
+    ],
+    [
+     "Saggi the Dark Clown",
+     1
+    ],
+    [
+     "Ryu-Kishin Powered",
+     2
+    ],
+    [
+     "Blade Knight",
+     2
+    ],
+    [
+     "Kaiser Sea Horse",
+     1
+    ],
+    [
+     "X-Head Cannon",
+     2
+    ],
+    [
+     "Hyozanryu",
+     1
+    ],
+    [
+     "Rude Kaiser",
+     1
+    ],
+    [
+     "The Flute of Summoning Dragon",
+     1
+    ],
+    [
+     "Monster Reborn",
+     1
+    ],
+    [
+     "Shrink",
+     2
+    ],
+    [
+     "Fissure",
+     2
+    ],
+    [
+     "Stop Defense",
+     2
+    ],
+    [
+     "Ancient Rules",
+     2
+    ],
+    [
+     "Dark Hole",
+     1
+    ],
+    [
+     "Mystical Space Typhoon",
+     1
+    ],
+    [
+     "Crush Card Virus",
+     1
+    ],
+    [
+     "Ring of Destruction",
+     1
+    ],
+    [
+     "Interdimensional Matter Transporter",
+     1
+    ],
+    [
+     "Trap Hole",
+     2
+    ],
+    [
+     "Draining Shield",
+     2
+    ],
+    [
+     "Negate Attack",
+     1
+    ]
+   ],
+   "extra": [],
+   "verified": true
+  },
+  {
+   "id": "undead",
+   "displayName": "Undead Horde",
+   "usedBy": "mob_duelist",
+   "main": [
+    [
+     "Pyramid Turtle",
+     2
+    ],
+    [
+     "Goblin Zombie",
+     2
+    ],
+    [
+     "Il Blud",
+     1
+    ],
+    [
+     "Despair from the Dark",
+     1
+    ],
+    [
+     "Vampire Lord",
+     1
+    ],
+    [
+     "Ryu Kokki",
+     2
+    ],
+    [
+     "Zombie Master",
+     2
+    ],
+    [
+     "Mezuki",
+     2
+    ],
+    [
+     "Spirit Reaper",
+     1
+    ],
+    [
+     "Red-Eyes Zombie Dragon",
+     1
+    ],
+    [
+     "Gozuki",
+     2
+    ],
+    [
+     "Uni-Zombie",
+     1
+    ],
+    [
+     "Plaguespreader Zombie",
+     2
+    ],
+    [
+     "Malevolent Mech - Goku En",
+     1
+    ],
+    [
+     "Shiranui Spectralsword",
+     1
+    ],
+    [
+     "Book of Life",
+     2
+    ],
+    [
+     "Call of the Mummy",
+     1
+    ],
+    [
+     "Card of Safe Return",
+     1
+    ],
+    [
+     "Zombie World",
+     1
+    ],
+    [
+     "Foolish Burial",
+     2
+    ],
+    [
+     "Monster Reborn",
+     1
+    ],
+    [
+     "Mystical Space Typhoon",
+     1
+    ],
+    [
+     "Dark Hole",
+     1
+    ],
+    [
+     "Call of the Haunted",
+     2
+    ],
+    [
+     "Trap Hole",
+     2
+    ],
+    [
+     "Torrential Tribute",
+     1
+    ],
+    [
+     "Bottomless Trap Hole",
+     2
+    ],
+    [
+     "Mirror Force",
+     1
+    ]
+   ],
+   "extra": [
+    [
+     "Doomkaiser Dragon",
+     2
+    ]
+   ],
+   "verified": true
+  },
+  {
+   "id": "prompts",
+   "displayName": "Prompt Test Deck",
+   "usedBy": "duel_manager",
+   "main": [
+    [
+     "Mind Crush",
+     3
+    ],
+    [
+     "Prohibition",
+     3
+    ],
+    [
+     "DNA Transplant",
+     3
+    ],
+    [
+     "Card Trooper",
+     3
+    ],
+    [
+     "Array of Revealing Light",
+     3
+    ],
+    [
+     "Card Advance",
+     3
+    ],
+    [
+     "7 Completed",
+     3
+    ],
+    [
+     "Mystic Tomato",
+     3
+    ],
+    [
+     "Giant Rat",
+     3
+    ],
+    [
+     "Alexandrite Dragon",
+     3
+    ],
+    [
+     "Luster Dragon",
+     3
+    ],
+    [
+     "Gene-Warped Warwolf",
+     3
+    ],
+    [
+     "Monster Reborn",
+     1
+    ],
+    [
+     "Pot of Greed",
+     1
+    ],
+    [
+     "Dark Hole",
+     1
+    ],
+    [
+     "Mystical Space Typhoon",
+     1
+    ]
+   ],
+   "extra": [],
+   "verified": false
+  }
+ ]
+}

@@ -1,0 +1,48 @@
+{
+ "sheet": "items",
+ "doc": "Items the mashup adds. Each row generates a registration in ModItems. components: data components set on the stack. model: item model JSON under assets/duelcraft/items.",
+ "columns": [
+  "id",
+  "javaClass",
+  "maxStack",
+  "components",
+  "model",
+  "texture",
+  "tooltip",
+  "creativeTab",
+  "obtain",
+  "verified"
+ ],
+ "rows": [
+  {
+   "id": "card",
+   "javaClass": "dev.duelcraft.item.CardItem",
+   "maxStack": 64,
+   "components": [
+    "duelcraft:card_id (int, Master Duel cid)",
+    "minecraft:custom_model_data strings[0] = frame"
+   ],
+   "model": "select on custom_model_data string -> card_<frame>",
+   "texture": "card_normal, card_effect, card_fusion, card_ritual, card_synchro, card_xyz, card_link, card_spell, card_trap, card_token (16x16, drawn by tools/make_textures.py)",
+   "tooltip": "card_tooltip (art, name, stats, Master Duel text); 'Not playable in duels yet' when CardDb has no passcode",
+   "creativeTab": "duelcraft:cards (every Master Duel card the player owns the data for, by cid)",
+   "obtain": "starter deck, mob drops, duel wins, creative tab",
+   "verified": true
+  },
+  {
+   "id": "deck_box",
+   "javaClass": "dev.duelcraft.item.DeckBoxItem",
+   "maxStack": 1,
+   "components": [
+    "minecraft:container (75 slots, one card each; extra-deck types count as Extra Deck)",
+    "minecraft:custom_name (deck name; the starter deck is named)"
+   ],
+   "model": "deck_box",
+   "texture": "deck_box (16x16, drawn by tools/make_textures.py)",
+   "tooltip": "Main N / Extra N; 'Right-click a mob or player to duel', 'Use to edit'",
+   "creativeTab": "duelcraft:cards (first entry, empty)",
+   "obtain": "starter deck on first join, creative tab, crafting (book + leather: data/duelcraft/recipe/deck_box.json)",
+   "verified": false
+  }
+ ]
+}

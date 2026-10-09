@@ -1,0 +1,78 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+repositories {
+	// Modrinth: e4mc (Open to LAN gives a link friends can join over the internet).
+	maven {
+		url = "https://api.modrinth.com/maven"
+		content { includeGroup "maven.modrinth" }
+	}
+}
+
+loom {
+	splitEnvironmentSourceSets()
+	runs {
+		client {
+			programArgs "--username", (System.getenv("DUELCRAFT_USERNAME") ?: "Duelist")
+			vmArgs "--enable-native-access=ALL-UNNAMED"
+		}
+	}
+	runs {
+		// a second client (own folder and name) to test hosting/joining on one PC
+		client2 {
+			client()
+			runDir "run2"
+			programArgs "--username", "Rival"
+			vmArgs "--enable-native-access=ALL-UNNAMED"
+		}
+	}
+	mods {
+		"duelcraft" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	// XZ for Java (0BSD): LZMA blocks in Master Duel's card-art bundles. Shipped inside the mod jar.
+	implementation "org.tukaani:xz:1.10"
+	include "org.tukaani:xz:1.10"
+
+	// e4mc 6.2.2 (Fabric, 26.1-26.3)
+	runtimeOnly "maven.modrinth:e4mc:AouleFRY"
+
+	testImplementation platform("org.junit:junit-bom:5.11.4")
+	testImplementation "org.junit.jupiter:junit-jupiter"
+	testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+test {
+	useJUnitPlatform()
+	jvmArgs "--enable-native-access=ALL-UNNAMED"
+	testLogging { events "passed", "failed"; exceptionFormat "full"; showStandardStreams = true }
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+	filesMatching("fabric.mod.json") { expand "version": version }
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+	it.options.encoding = "UTF-8"
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
+
+jar {
+	from("../LICENSE") { rename { "LICENSE_duelcraft" } }
+}

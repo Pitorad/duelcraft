@@ -1,0 +1,150 @@
+{
+ "sheet": "hooks",
+ "doc": "Every place the mod hooks into Minecraft (Fabric API events, registries, mixins). system = owning row in systems.",
+ "columns": [
+  "id",
+  "api",
+  "side",
+  "system",
+  "purpose",
+  "verified"
+ ],
+ "rows": [
+  {
+   "id": "server_started",
+   "api": "ServerLifecycleEvents.SERVER_STARTED",
+   "side": "main",
+   "system": "card_db",
+   "purpose": "Load Master Duel card data (index + tables) for the integrated server, off-thread with status.",
+   "verified": true
+  },
+  {
+   "id": "server_tick",
+   "api": "ServerTickEvents.END_SERVER_TICK",
+   "side": "main",
+   "system": "duel_manager",
+   "purpose": "Advance duels, expire challenges, keep mobs frozen.",
+   "verified": true
+  },
+  {
+   "id": "use_entity",
+   "api": "UseEntityCallback.EVENT",
+   "side": "main",
+   "system": "duel_manager",
+   "purpose": "Right-clicking a mob/player while holding a deck box issues a challenge.",
+   "verified": true
+  },
+  {
+   "id": "player_join",
+   "api": "ServerPlayConnectionEvents.JOIN",
+   "side": "main",
+   "system": "starter_deck",
+   "purpose": "Give the starter deck once per player per world (persistent tag duelcraft.starter).",
+   "verified": true
+  },
+  {
+   "id": "player_leave",
+   "api": "ServerPlayConnectionEvents.DISCONNECT",
+   "side": "main",
+   "system": "duel_manager",
+   "purpose": "Forfeit the leaver's duel.",
+   "verified": false
+  },
+  {
+   "id": "mob_death",
+   "api": "ServerLivingEntityEvents.AFTER_DEATH",
+   "side": "main",
+   "system": "card_drops",
+   "purpose": "Hostile mob killed by a player may drop a card; dueling player's death forfeits.",
+   "verified": false
+  },
+  {
+   "id": "commands",
+   "api": "CommandRegistrationCallback.EVENT",
+   "side": "main",
+   "system": "duel_manager",
+   "purpose": "/duel accept|decline|forfeit|status, /duel test <deck> (op: duel the nearest mob)",
+   "verified": true
+  },
+  {
+   "id": "registries",
+   "api": "Registry.register (items, data components, entity type, menu type, creative tab)",
+   "side": "main",
+   "system": "items",
+   "purpose": "Register items/components/CardEntity/DeckBoxMenu/creative tab.",
+   "verified": true
+  },
+  {
+   "id": "payload_types",
+   "api": "PayloadTypeRegistry.playS2C()/playC2S() + ServerPlayNetworking/ClientPlayNetworking",
+   "side": "main",
+   "system": "network",
+   "purpose": "Register payloads sheet.",
+   "verified": true
+  },
+  {
+   "id": "entity_renderer",
+   "api": "EntityRendererRegistry.register",
+   "side": "client",
+   "system": "card_entity_renderer",
+   "purpose": "Render CardEntity.",
+   "verified": true
+  },
+  {
+   "id": "tooltip_component",
+   "api": "ClientTooltipComponentCallback.EVENT + Item.getTooltipImage",
+   "side": "client",
+   "system": "card_tooltip",
+   "purpose": "Card art tooltip.",
+   "verified": true
+  },
+  {
+   "id": "menu_screen",
+   "api": "MenuScreens.register (vanilla) + ExtendedMenuType",
+   "side": "client",
+   "system": "deck_box_menu",
+   "purpose": "Deck box screen.",
+   "verified": true
+  },
+  {
+   "id": "hud",
+   "api": "HudElementRegistry.addLast",
+   "side": "client",
+   "system": "duel_hud",
+   "purpose": "In-world duel overlay.",
+   "verified": true
+  },
+  {
+   "id": "keybind",
+   "api": "KeyMappingHelper.registerKeyMapping (default V)",
+   "side": "client",
+   "system": "duel_hud",
+   "purpose": "Toggle the duel screen during a duel.",
+   "verified": false
+  },
+  {
+   "id": "client_tick",
+   "api": "ClientTickEvents.END_CLIENT_TICK",
+   "side": "client",
+   "system": "multiplayer_link",
+   "purpose": "Auto-join at the title screen; open the duel screen when a prompt arrives.",
+   "verified": true
+  },
+  {
+   "id": "world_join",
+   "api": "ServerLifecycleEvents.SERVER_STARTED (integrated) + client world join",
+   "side": "client",
+   "system": "multiplayer_link",
+   "purpose": "Auto Open-to-LAN when DUELCRAFT_LAN_PORT is set.",
+   "verified": true
+  },
+  {
+   "id": "title_screen",
+   "api": "ScreenEvents.AFTER_INIT",
+   "side": "client",
+   "system": "md_status",
+   "purpose": "Show Master Duel status line on the title screen.",
+   "verified": true
+  }
+ ]
+}
