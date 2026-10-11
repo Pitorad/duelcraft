@@ -270,3 +270,22 @@ src += "\tpublic static final Map<Integer, String> TEXT = Map.ofEntries(\n" + ",
     f"\t\tentry({r['id']}, {jstr(r['text'])}) /* {r['name']} */" for r in S["hint_strings"]) + ");\n}\n"
 write(MAIN, "HintStrings.java", src)
 print("hint strings:", len(S["hint_strings"]))
+
+# ---------------------------------------------------------------- voice categories (Duel Links)
+src = HDR.format(sheet="voice_categories") + "package dev.duelcraft.gen;\n\n/** One constant per voice_categories row: when a Duel Links line plays and the portrait expression it sets. */\npublic enum VoiceTrigger {\n"
+src += ",\n".join(f"\t/** {r['meaning']} (e.g. \"{r['sample']}\") */\n\t{r['trigger'].upper()}({jstr(r['category'])}, {jstr(r['sub'])}, {r['expression']})"
+                  for r in S["voice_categories"])
+src += """;
+
+\tpublic final String category, sub;
+\tpublic final int expression;
+
+\tVoiceTrigger(String category, String sub, int expression) {
+\t\tthis.category = category;
+\t\tthis.sub = sub;
+\t\tthis.expression = expression;
+\t}
+}
+"""
+write(MAIN, "VoiceTrigger.java", src)
+print("voice triggers:", len(S["voice_categories"]))

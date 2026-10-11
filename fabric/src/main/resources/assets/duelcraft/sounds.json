@@ -1,0 +1,6 @@
+{
+  "voice": {
+    "category": "voice",
+    "sounds": [{"name": "minecraft:random/click", "stream": true}]
+  }
+}

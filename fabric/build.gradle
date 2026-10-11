@@ -53,6 +53,7 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	if (project.hasProperty("dlExport")) { systemProperty "dl.export", project.property("dlExport") }
 	jvmArgs "--enable-native-access=ALL-UNNAMED"
 	testLogging { events "passed", "failed"; exceptionFormat "full"; showStandardStreams = true }
 }
@@ -75,4 +76,5 @@ java {
 
 jar {
 	from("../LICENSE") { rename { "LICENSE_duelcraft" } }
+	from("../README.md")
 }

@@ -397,6 +397,119 @@
    "dependsOn": [],
    "test": "inspect_package/validate_recipe/one_click_check pass; Melty Play works on this PC",
    "verified": false
+  },
+  {
+   "id": "dl_locator",
+   "javaClass": "dev.duelcraft.dl.DuelLinksLocator",
+   "side": "main",
+   "purpose": "Find Yu-Gi-Oh! Duel Links: DUELCRAFT_DL_DIR (Melty passes {game:custom-yu-gi-oh-duel-links}), else Steam app 601510; its LocalData/<id> bundle folder.",
+   "dependsOn": [],
+   "test": "unit test finds this PC's Duel Links",
+   "verified": true
+  },
+  {
+   "id": "dl_data",
+   "javaClass": "dev.duelcraft.dl.DuelLinksData",
+   "side": "main",
+   "purpose": "Index Duel Links bundles (reuses MasterDuelIndex, cache duelcraft/dl_index.tsv) and list characters that have both a face portrait and voice clips.",
+   "dependsOn": [
+    "dl_locator",
+    "md_index"
+   ],
+   "test": "unit test: 190+ characters, Jaden (0101) has 6 faces and voice clips",
+   "verified": true
+  },
+  {
+   "id": "dl_voice",
+   "javaClass": "dev.duelcraft.dl.DuelLinksVoice",
+   "side": "main",
+   "purpose": "Clip id -> Ogg bytes: read the AudioClip resource, parse FSB5, rebuild Ogg Vorbis (setup header from vorbis_headers.bin, granule positions from block sizes).",
+   "dependsOn": [
+    "dl_data"
+   ],
+   "test": "unit test: rebuilt Ogg decodes with JOrbis to the clip's sample count",
+   "verified": true
+  },
+  {
+   "id": "voice_tables",
+   "javaClass": "dev.duelcraft.dl.VoiceTables",
+   "side": "main",
+   "purpose": "Card-specific lines (dl/card_lines.tsv: character, clip, card cid) and the voice_categories sheet: pick the clip for (character, trigger, card).",
+   "dependsOn": [
+    "dl_data"
+   ],
+   "test": "unit test: Jaden has a card_summon line for Elemental HERO Neos",
+   "verified": true
+  },
+  {
+   "id": "voice_sound",
+   "javaClass": "dev.duelcraft.client.dl.VoiceSound",
+   "side": "client",
+   "purpose": "Play a clip through Minecraft's sound engine: SoundInstance on event duelcraft:voice whose Sound points at duelcraft_dl:voice/<clip>; SoundBufferLibraryMixin serves the Ogg from dl_voice.",
+   "dependsOn": [
+    "dl_voice"
+   ],
+   "test": "in-game: Jaden says DUEL! at duel start",
+   "verified": true
+  },
+  {
+   "id": "voice_director",
+   "javaClass": "dev.duelcraft.client.dl.VoiceDirector",
+   "side": "client",
+   "purpose": "Turn duel events into lines for the acting seat's character (card line first, else the generic category), one line at a time, and set that seat's portrait expression.",
+   "dependsOn": [
+    "voice_tables",
+    "voice_sound"
+   ],
+   "test": "in-game: summon/activation/attack/damage/win lines play for both seats",
+   "verified": true
+  },
+  {
+   "id": "character_select",
+   "javaClass": "dev.duelcraft.client.dl.CharacterSelectScreen",
+   "side": "client",
+   "purpose": "Key (default K) opens a grid of every Duel Links character (their icon, which carries the name); the pick is saved in config/duelcraft.properties and sent to the server.",
+   "dependsOn": [
+    "dl_data",
+    "network"
+   ],
+   "test": "in-game screenshot of the menu; pick survives restart",
+   "verified": true
+  },
+  {
+   "id": "character_portrait",
+   "javaClass": "dev.duelcraft.client.dl.PortraitTextures",
+   "side": "client",
+   "purpose": "Duel Links character images as textures (icon, name plate, 6 faces); the duel screen shows both seats' faces beside their LP.",
+   "dependsOn": [
+    "dl_data"
+   ],
+   "test": "in-game screenshot of the duel screen with portraits",
+   "verified": true
+  },
+  {
+   "id": "characters_server",
+   "javaClass": "dev.duelcraft.duel.Characters",
+   "side": "main",
+   "purpose": "Each player's picked character (CharacterPickPayload), included in DuelStartPayload for both seats so friends hear each other.",
+   "dependsOn": [
+    "network"
+   ],
+   "test": "two clients: each hears the other's character",
+   "verified": true
+  },
+  {
+   "id": "melty_test",
+   "javaClass": "dev.duelcraft.client.MeltyTest",
+   "side": "client",
+   "purpose": "Melty test runs (recipe test.checks): while %LOCALAPPDATA%/Melty/test/duelcraft.json exists, open a fresh peaceful world from the test seed, pick a Duel Links character from the seed, duel a villager with the duel AI answering every prompt, and append pass/fail lines for cards-loaded, characters-loaded, duel-starts, voice-plays, portrait-shows, duel-finishes.",
+   "dependsOn": [
+    "dl_data",
+    "duel_manager",
+    "voice_director"
+   ],
+   "test": "local rehearsal with DUELCRAFT_MELTY_TEST, then Melty test_release (2+ runs)",
+   "verified": true
   }
  ]
 }

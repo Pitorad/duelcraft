@@ -1,6 +1,8 @@
 package dev.duelcraft.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import dev.duelcraft.client.dl.CharacterSelectScreen;
+import dev.duelcraft.client.dl.VoiceDirector;
 import dev.duelcraft.gen.HookIds;
 import dev.duelcraft.gen.Payloads;
 import dev.duelcraft.item.CardItem;
@@ -27,6 +29,9 @@ import net.minecraft.resources.Identifier;
 public final class DuelCraftClient implements ClientModInitializer {
 	public static final KeyMapping DUEL_KEY = KeyMappingHelper.registerKeyMapping(new KeyMapping("key.duelcraft.duel_screen", InputConstants.Type.KEYBOARD,
 		InputConstants.KEY_V, new KeyMapping.Category(Identifier.fromNamespaceAndPath("duelcraft", "duelcraft"))));
+
+	public static final KeyMapping CHARACTER_KEY = KeyMappingHelper.registerKeyMapping(new KeyMapping("key.duelcraft.character", InputConstants.Type.KEYBOARD,
+		InputConstants.KEY_K, new KeyMapping.Category(Identifier.fromNamespaceAndPath("duelcraft", "duelcraft"))));
 
 	public static Screen screen() {
 		return Minecraft.getInstance().gui.screen();
@@ -57,10 +62,24 @@ public final class DuelCraftClient implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(Payloads.DuelPromptPayload.TYPE, (p, ctx) -> ClientDuel.prompt(p));
 		ClientPlayNetworking.registerGlobalReceiver(Payloads.DuelEndPayload.TYPE, (p, ctx) -> ClientDuel.end(p));
 		ClientPlayConnectionEvents.DISCONNECT.register((h, mc) -> ClientDuel.leave());
+		ClientPlayConnectionEvents.JOIN.register((h, sender, mc) -> mc.execute(CharacterSelectScreen::sendPick));
+		HookIds.PICK_ON_JOIN.installed();
+		HookIds.CHARACTER_KEY.installed();
+		HookIds.SOUND_MIXIN.installed();
+		HookIds.SOUNDS_JSON.installed();
 
 		ClientTickEvents.END_CLIENT_TICK.register(mc -> {
-			MeltyLink.tick(mc);
+			MeltyTest.tick(mc);
+			if (!MeltyTest.active()) {
+				MeltyLink.tick(mc);
+			}
 			TestBridge.tick(mc);
+			VoiceDirector.tick(mc);
+			while (CHARACTER_KEY.consumeClick()) {
+				if (screen() == null) {
+					open(new CharacterSelectScreen());
+				}
+			}
 			while (DUEL_KEY.consumeClick()) {
 				if (ClientDuel.active() && screen() == null) {
 					open(new DuelScreen());
@@ -72,6 +91,7 @@ public final class DuelCraftClient implements ClientModInitializer {
 			}
 		});
 		HookIds.CLIENT_TICK.installed();
+		MeltyTest.init();
 		MeltyLink.init();
 		HookIds.WORLD_JOIN.installed();
 		ScreenEvents.AFTER_INIT.register((mc, screen, w, h) -> {

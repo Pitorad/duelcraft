@@ -34,4 +34,13 @@ public final class Settings {
 	/** Smallest main deck allowed in a duel (official 40). (used by duel_manager) */
 	public static final int MIN_DECK = 40;
 
+	/** Volume of character voice lines (multiplied by the Voice/Speech slider). (used by voice_sound) */
+	public static final float VOICE_VOLUME = 1.0F;
+
+	/** LP at or below which the low-LP line plays (once per duel per seat). (used by voice_director) */
+	public static final int LOW_LP = 2000;
+
+	/** Damage from which the heavy-damage line is used instead of the light one. (used by voice_director) */
+	public static final int BIG_DAMAGE = 2000;
+
 }

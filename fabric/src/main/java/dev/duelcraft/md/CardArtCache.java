@@ -20,11 +20,11 @@ import javax.imageio.ImageIO;
  * native helper and cached as PNG in &lt;dir&gt;/art/&lt;cid&gt;.png. Nothing is shipped; each player decodes their own.
  */
 public final class CardArtCache {
-	private static final int BC7 = 25, DXT1 = 10, DXT5 = 12, RGBA32 = 4, ARGB32 = 5, RGB24 = 3;
+	private static final int BC7 = 25, DXT1 = 10, DXT5 = 12, RGBA32 = 4, ARGB32 = 5, RGB24 = 3, ALPHA8 = 1, ARGB4444 = 2, RGB565 = 7, RGBA4444 = 13;
 	private final MasterDuelIndex index;
 	private final Path dir;
 	private java.util.function.IntFunction<int[]> alternates = cid -> new int[0];
-	private MethodHandle decodeBc7;
+	private static MethodHandle decodeBc7;
 
 	public CardArtCache(MasterDuelIndex index, Path dir) {
 		this.index = index;
@@ -87,9 +87,11 @@ public final class CardArtCache {
 
 	public BufferedImage decode(int cid) throws IOException {
 		Path bundle = bundleFor(cid);
-		if (bundle == null) {
-			return null;
-		}
+		return bundle == null ? null : decodeBundle(bundle);
+	}
+
+	/** The first Texture2D in a bundle (Master Duel card art, Duel Links character images). */
+	public static BufferedImage decodeBundle(Path bundle) throws IOException {
 		UnityBundle b = new UnityBundle(bundle);
 		SerializedFile sf = new SerializedFile(b.readNode(b.serializedNode()));
 		SerializedFile.ObjectInfo tex = sf.find(28); // Texture2D
@@ -115,7 +117,8 @@ public final class CardArtCache {
 			case RGBA32 -> data;
 			case ARGB32 -> argbToRgba(data);
 			case RGB24 -> rgbToRgba(data);
-			default -> throw new IOException("card art format " + format + " not supported (cid " + cid + ")");
+			case ARGB4444, RGBA4444, RGB565, ALPHA8 -> small(format, data, w, h);
+			default -> throw new IOException("texture format " + format + " not supported (" + bundle.getFileName() + ")");
 		};
 		BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 		for (int y = 0; y < h; y++) {
@@ -128,7 +131,7 @@ public final class CardArtCache {
 		return img;
 	}
 
-	private byte[] bc(int format, byte[] src, int w, int h) throws IOException {
+	private static byte[] bc(int format, byte[] src, int w, int h) throws IOException {
 		if (decodeBc7 == null) {
 			decodeBc7 = NativeLib.fn("dc_decode_bc", FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT,
 				ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS));
@@ -147,6 +150,41 @@ public final class CardArtCache {
 		} catch (Throwable e) {
 			throw new IOException(e);
 		}
+	}
+
+	/** 8/16-bit Unity formats (little-endian 16-bit words) to RGBA. */
+	private static byte[] small(int format, byte[] d, int w, int h) {
+		byte[] o = new byte[w * h * 4];
+		for (int i = 0; i < w * h; i++) {
+			int r, g, b, a;
+			if (format == ALPHA8) {
+				r = g = b = 255;
+				a = d[i] & 0xFF;
+			} else {
+				int v = (d[2 * i] & 0xFF) | (d[2 * i + 1] & 0xFF) << 8;
+				if (format == ARGB4444) {
+					a = (v >> 12 & 15) * 17;
+					r = (v >> 8 & 15) * 17;
+					g = (v >> 4 & 15) * 17;
+					b = (v & 15) * 17;
+				} else if (format == RGBA4444) {
+					r = (v >> 12 & 15) * 17;
+					g = (v >> 8 & 15) * 17;
+					b = (v >> 4 & 15) * 17;
+					a = (v & 15) * 17;
+				} else {
+					r = (v >> 11 & 31) * 255 / 31;
+					g = (v >> 5 & 63) * 255 / 63;
+					b = (v & 31) * 255 / 31;
+					a = 255;
+				}
+			}
+			o[4 * i] = (byte) r;
+			o[4 * i + 1] = (byte) g;
+			o[4 * i + 2] = (byte) b;
+			o[4 * i + 3] = (byte) a;
+		}
+		return o;
 	}
 
 	private static byte[] argbToRgba(byte[] d) {

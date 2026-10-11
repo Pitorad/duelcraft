@@ -31,7 +31,11 @@ public final class MasterDuelLocator {
 	public static Install find() {
 		String override = System.getenv("DUELCRAFT_MD_DIR");
 		if (override != null && !override.isBlank()) {
-			return fromGameDir(Path.of(override));
+			// Melty passes the companion game's folder; if it holds no Master Duel data, look in Steam as usual
+			Install i = fromGameDir(Path.of(override));
+			if (i != null) {
+				return i;
+			}
 		}
 		for (Path lib : steamLibraries()) {
 			Path manifest = lib.resolve("steamapps").resolve("appmanifest_" + APP_ID + ".acf");
@@ -79,7 +83,7 @@ public final class MasterDuelLocator {
 		}
 	}
 
-	static List<Path> steamLibraries() {
+	public static List<Path> steamLibraries() {
 		Set<Path> roots = new LinkedHashSet<>();
 		String steamPath = registrySteamPath();
 		if (steamPath != null) {

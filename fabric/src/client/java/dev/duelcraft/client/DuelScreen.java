@@ -706,6 +706,31 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 		};
 	}
 
+	/** Both seats' Duel Links faces (systems: character_portrait); the speaking one is framed. */
+	private int drawPortraits(GuiGraphicsExtractor g, int x, int y, int w, int me) {
+		if (ClientDuel.character[0] <= 0 && ClientDuel.character[1] <= 0) {
+			return y;
+		}
+		int size = Math.min(64, (w - 6) / 2);
+		int[] seats = {1 - me, me};
+		for (int i = 0; i < 2; i++) {
+			int s = seats[i], px = x + i * (size + 6);
+			if (ClientDuel.character[s] <= 0) {
+				continue; // mobs and players without a pick have no face
+			}
+			if (dev.duelcraft.client.dl.VoiceDirector.speakingSeat() == s) {
+				g.fill(px - 1, y - 1, px + size + 1, y + size + 1, 0xFFFFE070);
+			}
+			g.fill(px, y, px + size, y + size, 0xFF101420);
+			dev.duelcraft.client.dl.PortraitTextures.Tex face = dev.duelcraft.client.dl.PortraitTextures.get(ClientDuel.character[s],
+				"face" + dev.duelcraft.client.dl.VoiceDirector.expression(s));
+			if (face != null) {
+				g.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, face.id(), px, y, 0, 0, size, size, size, size);
+			}
+		}
+		return y + size + 4;
+	}
+
 	private void drawRight(GuiGraphicsExtractor g, int mx, int my) {
 		int x = rightX + 4, w = width - rightX - 8, y = 4;
 		g.fill(rightX, 0, width, height, 0xC0181C28);
@@ -716,8 +741,12 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 		y += 16;
 		g.text(font, "Turn " + ClientDuel.turn, x, y, 0xFFB0B0B0);
 		y += 12;
+		y = drawPortraits(g, x, y, w, me);
 		// log
 		int promptTop = height - 8 - (widget == null ? 0 : 14 + Math.max(1, widget.buttons.size()) * 16);
+		if (widget == null && !ClientDuel.result.isEmpty()) {
+			promptTop = height - 18 - (ClientDuel.rewardCid != 0 ? ch + 14 : 0); // room for the reward card and the Esc hint
+		}
 		int lines = Math.max(0, (promptTop - y - 4) / 9);
 		List<FormattedCharSequence> wrapped = new ArrayList<>();
 		for (String l : ClientDuel.log) {

@@ -14,9 +14,9 @@
    "id": "duel_start",
    "record": "DuelStartPayload",
    "direction": "s2c",
-   "fields": "duelId:int, seat:int, opponentName:string, opponentIsMob:bool, boardEntityId:int",
+   "fields": "duelId:int, seat:int, opponentName:string, opponentIsMob:bool, boardEntityId:int, character0:int, character1:int",
    "handler": "duel_screen",
-   "verified": true
+   "verified": false
   },
   {
    "id": "duel_state",
@@ -30,9 +30,9 @@
    "id": "duel_event",
    "record": "DuelEventPayload",
    "direction": "s2c",
-   "fields": "duelId:int, msgId:int, text:string, cid:int, player:int, amount:int",
+   "fields": "duelId:int, msgId:int, text:string, cid:int, player:int, amount:int, actor:int, cardType:int, lp:int",
    "handler": "duel_screen",
-   "verified": true
+   "verified": false
   },
   {
    "id": "duel_prompt",
@@ -65,6 +65,14 @@
    "fields": "duelId:int",
    "handler": "duel_manager",
    "verified": false
+  },
+  {
+   "id": "character_pick",
+   "record": "CharacterPickPayload",
+   "direction": "c2s",
+   "fields": "character:int",
+   "handler": "characters_server",
+   "verified": true
   }
  ]
 }

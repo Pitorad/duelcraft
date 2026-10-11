@@ -1,0 +1,375 @@
+{
+ "sheet": "voice_categories",
+ "doc": "Duel Links voice clip names are v<character 4 digits>_<category>_<sub>_<index>_<part>. One row per category/sub the mashup plays: when (trigger, emitted by the voice director from duel events), and which Duel Links expression the duel-screen portrait shows (chara007_<expression>.png: 1 normal, 2 happy, 3 shouting, 4 worried, 5 pained, 6 grin). sample = Jaden Yuki's (v0101) line, transcribed from the clip to verify the meaning.",
+ "columns": [
+  "category",
+  "sub",
+  "meaning",
+  "trigger",
+  "expression",
+  "sample",
+  "verified"
+ ],
+ "rows": [
+  {
+   "category": "02",
+   "sub": "*",
+   "meaning": "\"DUEL!\" at the start",
+   "trigger": "duel_start",
+   "expression": 1,
+   "sample": "DUEL!",
+   "verified": true
+  },
+  {
+   "category": "03",
+   "sub": "*",
+   "meaning": "my turn begins (part _0 then _1)",
+   "trigger": "my_turn",
+   "expression": 1,
+   "sample": "I'm gonna keep on rolling.",
+   "verified": true
+  },
+  {
+   "category": "04",
+   "sub": "*",
+   "meaning": "I draw (turn draw)",
+   "trigger": "draw",
+   "expression": 1,
+   "sample": "Sweet! I draw!",
+   "verified": true
+  },
+  {
+   "category": "07",
+   "sub": "01",
+   "meaning": "activate a Normal Spell",
+   "trigger": "activate_spell",
+   "expression": 3,
+   "sample": "I activate a spell!",
+   "verified": true
+  },
+  {
+   "category": "07",
+   "sub": "02",
+   "meaning": "activate a Quick-Play Spell",
+   "trigger": "activate_quickplay",
+   "expression": 3,
+   "sample": "I activate a quick play spell!",
+   "verified": true
+  },
+  {
+   "category": "07",
+   "sub": "03",
+   "meaning": "activate a Continuous Spell",
+   "trigger": "activate_continuous_spell",
+   "expression": 3,
+   "sample": "I activate a continuous spell!",
+   "verified": true
+  },
+  {
+   "category": "07",
+   "sub": "04",
+   "meaning": "activate an Equip Spell",
+   "trigger": "activate_equip",
+   "expression": 3,
+   "sample": "I activate an equip spell!",
+   "verified": true
+  },
+  {
+   "category": "07",
+   "sub": "05",
+   "meaning": "activate a Ritual Spell",
+   "trigger": "activate_ritual_spell",
+   "expression": 3,
+   "sample": "I activate a ritual spell!",
+   "verified": true
+  },
+  {
+   "category": "07",
+   "sub": "06",
+   "meaning": "activate a Normal Trap",
+   "trigger": "activate_trap",
+   "expression": 3,
+   "sample": "My trap activates!",
+   "verified": true
+  },
+  {
+   "category": "07",
+   "sub": "07",
+   "meaning": "activate a Continuous Trap",
+   "trigger": "activate_continuous_trap",
+   "expression": 3,
+   "sample": "My continuous trap activates!",
+   "verified": true
+  },
+  {
+   "category": "07",
+   "sub": "08",
+   "meaning": "activate a Counter Trap",
+   "trigger": "activate_counter_trap",
+   "expression": 3,
+   "sample": "My counter trap activates!",
+   "verified": true
+  },
+  {
+   "category": "07",
+   "sub": "10",
+   "meaning": "a monster effect activates",
+   "trigger": "activate_monster_effect",
+   "expression": 3,
+   "sample": "My monster's effect activates!",
+   "verified": true
+  },
+  {
+   "category": "07",
+   "sub": "11",
+   "meaning": "activate a Field Spell",
+   "trigger": "activate_field",
+   "expression": 3,
+   "sample": "The field spell activates!",
+   "verified": true
+  },
+  {
+   "category": "07",
+   "sub": "12",
+   "meaning": "activate an effect (other)",
+   "trigger": "activate_other",
+   "expression": 3,
+   "sample": "I activate an effect!",
+   "verified": true
+  },
+  {
+   "category": "07",
+   "sub": "13",
+   "meaning": "set a Pendulum Scale",
+   "trigger": "activate_pendulum_scale",
+   "expression": 3,
+   "sample": "I set the pendulum scale!",
+   "verified": true
+  },
+  {
+   "category": "08",
+   "sub": "*",
+   "meaning": "this character's line for a specific Spell/Trap (dl/card_lines.tsv)",
+   "trigger": "card_activate",
+   "expression": 3,
+   "sample": "I activate the spell card polymerization!",
+   "verified": true
+  },
+  {
+   "category": "09",
+   "sub": "*",
+   "meaning": "this character's line for a specific monster effect (dl/card_lines.tsv)",
+   "trigger": "card_effect",
+   "expression": 3,
+   "sample": "Flame wingman's effect activates!",
+   "verified": true
+  },
+  {
+   "category": "11",
+   "sub": "00",
+   "meaning": "Normal Summon in Attack Position",
+   "trigger": "summon_attack",
+   "expression": 3,
+   "sample": "I summon a monster in attack position!",
+   "verified": true
+  },
+  {
+   "category": "11",
+   "sub": "01",
+   "meaning": "summon in Defense Position",
+   "trigger": "summon_defense",
+   "expression": 1,
+   "sample": "I summon a monster in defense position.",
+   "verified": true
+  },
+  {
+   "category": "11",
+   "sub": "02",
+   "meaning": "Special Summon",
+   "trigger": "summon_special",
+   "expression": 3,
+   "sample": "I special summon a monster!",
+   "verified": true
+  },
+  {
+   "category": "11",
+   "sub": "04",
+   "meaning": "Tribute Summon",
+   "trigger": "summon_tribute",
+   "expression": 3,
+   "sample": "I TRIBUTE SOMEON A MONSTER!",
+   "verified": true
+  },
+  {
+   "category": "11",
+   "sub": "05",
+   "meaning": "Fusion Summon",
+   "trigger": "summon_fusion",
+   "expression": 3,
+   "sample": "I fusion summon a monster!",
+   "verified": true
+  },
+  {
+   "category": "11",
+   "sub": "06",
+   "meaning": "Ritual Summon",
+   "trigger": "summon_ritual",
+   "expression": 3,
+   "sample": "I ritual summon a monster!",
+   "verified": true
+  },
+  {
+   "category": "11",
+   "sub": "07",
+   "meaning": "Synchro Summon",
+   "trigger": "summon_synchro",
+   "expression": 3,
+   "sample": "I synchro summon a monster!",
+   "verified": true
+  },
+  {
+   "category": "11",
+   "sub": "08",
+   "meaning": "Xyz Summon",
+   "trigger": "summon_xyz",
+   "expression": 3,
+   "sample": "I exceed summon a monster!",
+   "verified": true
+  },
+  {
+   "category": "11",
+   "sub": "09",
+   "meaning": "Pendulum Summon",
+   "trigger": "summon_pendulum",
+   "expression": 3,
+   "sample": "I pendulum summon a monster!",
+   "verified": true
+  },
+  {
+   "category": "11",
+   "sub": "10",
+   "meaning": "Link Summon",
+   "trigger": "summon_link",
+   "expression": 3,
+   "sample": "I linked some of the monster!",
+   "verified": true
+  },
+  {
+   "category": "13",
+   "sub": "*",
+   "meaning": "this character's summon chant for a specific monster (dl/card_lines.tsv)",
+   "trigger": "card_summon",
+   "expression": 3,
+   "sample": "Sauron in Elemental Hero Avion!",
+   "verified": true
+  },
+  {
+   "category": "14",
+   "sub": "*",
+   "meaning": "entering the Battle Phase",
+   "trigger": "battle_phase",
+   "expression": 3,
+   "sample": "Let's battle!",
+   "verified": true
+  },
+  {
+   "category": "17",
+   "sub": "*",
+   "meaning": "attack with a monster",
+   "trigger": "attack",
+   "expression": 3,
+   "sample": "I attack with my monster!",
+   "verified": true
+  },
+  {
+   "category": "18",
+   "sub": "*",
+   "meaning": "direct attack",
+   "trigger": "attack_direct",
+   "expression": 3,
+   "sample": "My monster attacks you directly!",
+   "verified": true
+  },
+  {
+   "category": "19",
+   "sub": "*",
+   "meaning": "this character's attack call for a specific monster (dl/card_lines.tsv)",
+   "trigger": "card_attack",
+   "expression": 3,
+   "sample": "ATTACK AVIAN!",
+   "verified": true
+  },
+  {
+   "category": "20",
+   "sub": "00",
+   "meaning": "set a Spell/Trap",
+   "trigger": "set_spell_trap",
+   "expression": 1,
+   "sample": "I set a card.",
+   "verified": true
+  },
+  {
+   "category": "20",
+   "sub": "01",
+   "meaning": "set a monster",
+   "trigger": "set_monster",
+   "expression": 1,
+   "sample": "I said a monster!",
+   "verified": true
+  },
+  {
+   "category": "21",
+   "sub": "*",
+   "meaning": "end my turn",
+   "trigger": "end_turn",
+   "expression": 1,
+   "sample": "I end my turn. Your move.",
+   "verified": true
+  },
+  {
+   "category": "22",
+   "sub": "*",
+   "meaning": "take damage (under 2000)",
+   "trigger": "damage_small",
+   "expression": 4,
+   "sample": "Argh!",
+   "verified": true
+  },
+  {
+   "category": "23",
+   "sub": "*",
+   "meaning": "take damage (2000 or more)",
+   "trigger": "damage_big",
+   "expression": 5,
+   "sample": "AHHHHHHHHHHHHHHHHHHHHHHHHH",
+   "verified": true
+  },
+  {
+   "category": "26",
+   "sub": "*",
+   "meaning": "my LP fall to 2000 or less",
+   "trigger": "low_lp",
+   "expression": 4,
+   "sample": "You haven't beat me yet!",
+   "verified": true
+  },
+  {
+   "category": "27",
+   "sub": "*",
+   "meaning": "I lose the duel",
+   "trigger": "lose",
+   "expression": 5,
+   "sample": "Ugh, I let my guard down.",
+   "verified": true
+  },
+  {
+   "category": "28",
+   "sub": "*",
+   "meaning": "I win the duel",
+   "trigger": "win",
+   "expression": 6,
+   "sample": "Oh yeah! There's nothing better than a duel!",
+   "verified": true
+  }
+ ]
+}

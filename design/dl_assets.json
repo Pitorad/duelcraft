@@ -1,0 +1,51 @@
+{
+ "sheet": "dl_assets",
+ "doc": "Yu-Gi-Oh! Duel Links files the mod reads from the player's install at runtime (never shipped). path = Unity container path pattern in LocalData bundles; <id> = 4-digit character id.",
+ "columns": [
+  "id",
+  "path",
+  "unityType",
+  "format",
+  "decode",
+  "usedBy",
+  "verified"
+ ],
+ "rows": [
+  {
+   "id": "chara_icon",
+   "path": "assets/resources/characters/sn<id>/images/en-us/chara001.png",
+   "unityType": "Texture2D",
+   "format": "124x146 framed head icon",
+   "decode": "Unity texture (RGBA32/DXT/BC7 via native)",
+   "usedBy": "character_select",
+   "verified": true
+  },
+  {
+   "id": "chara_name",
+   "path": "assets/resources/characters/sn<id>/images/en-us/charaname002.png",
+   "unityType": "Texture2D",
+   "format": "199x96 name plate",
+   "decode": "Unity texture",
+   "usedBy": "character_select",
+   "verified": true
+  },
+  {
+   "id": "chara_face",
+   "path": "assets/resources/characters/sn<id>/images/en-us/chara007_<1-6>.png",
+   "unityType": "Texture2D",
+   "format": "240x240 face, 6 expressions",
+   "decode": "Unity texture",
+   "usedBy": "character_portrait",
+   "verified": true
+  },
+  {
+   "id": "voice_clip",
+   "path": "assets/resources/sound/audioclip/voice/en-us/v<id>/v<id>_<cat>_<sub>_<n>_<part>.wav (also assets/en-us/sound/audioclip/voice/v<id>/...)",
+   "unityType": "AudioClip",
+   "format": "FMOD FSB5, Vorbis (codec 15), mono 44.1/48 kHz, in the bundle .resource node",
+   "decode": "FSB5 -> Ogg Vorbis with the setup header from dl/vorbis_headers.bin, played by Minecraft (JOrbis)",
+   "usedBy": "dl_voice",
+   "verified": true
+  }
+ ]
+}

@@ -170,6 +170,20 @@ public final class TestBridge {
 				mc.mouseHandler.onMove(mc.getWindow().handle(), Double.parseDouble(xy[0]) * sc, Double.parseDouble(xy[1]) * sc, 0, 0);
 				return "mouse";
 			}
+			case "charopen" -> {
+				DuelCraftClient.open(new dev.duelcraft.client.dl.CharacterSelectScreen());
+				return "opened";
+			}
+			case "character" -> {
+				dev.duelcraft.client.dl.CharacterSelectScreen.pick(Integer.parseInt(arg.trim()));
+				return "picked " + dev.duelcraft.client.dl.CharacterSelectScreen.picked();
+			}
+			case "voice" -> {
+				return "dl " + dev.duelcraft.DuelCraftData.dlStatus() + " chars " + ClientDuel.character[0] + "/" + ClientDuel.character[1] + " played "
+					+ dev.duelcraft.client.dl.VoiceDirector.played + " last " + dev.duelcraft.client.dl.VoiceDirector.lastClip + " speaking "
+					+ dev.duelcraft.client.dl.VoiceDirector.speakingSeat() + " faces " + dev.duelcraft.client.dl.VoiceDirector.expression(0) + "/"
+					+ dev.duelcraft.client.dl.VoiceDirector.expression(1);
+			}
 			case "duelopen" -> {
 				DuelCraftClient.open(new DuelScreen());
 				return "opened";

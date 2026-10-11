@@ -26,6 +26,7 @@ public final class DuelCraft implements ModInitializer {
 		CardEntity.init();
 		DuelNet.init();
 		DuelManager.init();
+		dev.duelcraft.duel.Characters.init();
 		StarterDeck.init();
 		CardDrops.init();
 		ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {

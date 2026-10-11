@@ -31,5 +31,12 @@
   "gui.duelcraft.md_missing": "DuelCraft: Yu-Gi-Oh! Master Duel not found - install it on Steam (free) and start it once.",
   "gui.duelcraft.md_indexing": "DuelCraft: reading your Master Duel cards... %s%%",
   "gui.duelcraft.md_ready": "DuelCraft: %s Master Duel cards ready",
-  "gui.duelcraft.md_failed": "DuelCraft: couldn't read Master Duel (%s)"
+  "gui.duelcraft.md_failed": "DuelCraft: couldn't read Master Duel (%s)",
+  "key.duelcraft.character": "Pick Duel Links character",
+  "gui.duelcraft.pick_character": "Duel as a Duel Links character",
+  "gui.duelcraft.no_character": "None",
+  "gui.duelcraft.dl_missing": "Duel Links was not found. Install it from Steam to duel as its characters.",
+  "gui.duelcraft.dl_loading": "Reading Duel Links...",
+  "gui.duelcraft.pick_hint": "Click a character - you keep your own deck, they lend their voice. Scroll for more.",
+  "subtitles.duelcraft.voice": "Duelist speaks"
 }

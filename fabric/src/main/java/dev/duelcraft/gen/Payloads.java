@@ -10,7 +10,7 @@ public final class Payloads {
 	private Payloads() {}
 
 	/** s2c, handled by duel_screen. */
-	public record DuelStartPayload(int duelId, int seat, String opponentName, boolean opponentIsMob, int boardEntityId) implements CustomPacketPayload {
+	public record DuelStartPayload(int duelId, int seat, String opponentName, boolean opponentIsMob, int boardEntityId, int character0, int character1) implements CustomPacketPayload {
 		public static final Type<DuelStartPayload> TYPE = new Type<>(Identifier.fromNamespaceAndPath("duelcraft", "duel_start"));
 		public static final boolean TO_CLIENT = true;
 		public static final StreamCodec<RegistryFriendlyByteBuf, DuelStartPayload> CODEC = StreamCodec.of(
@@ -20,8 +20,10 @@ public final class Payloads {
 				buf.writeUtf(p.opponentName());
 				buf.writeBoolean(p.opponentIsMob());
 				buf.writeVarInt(p.boardEntityId());
+				buf.writeVarInt(p.character0());
+				buf.writeVarInt(p.character1());
 			},
-			buf -> new DuelStartPayload(buf.readVarInt(), buf.readVarInt(), buf.readUtf(), buf.readBoolean(), buf.readVarInt()));
+			buf -> new DuelStartPayload(buf.readVarInt(), buf.readVarInt(), buf.readUtf(), buf.readBoolean(), buf.readVarInt(), buf.readVarInt(), buf.readVarInt()));
 
 		@Override
 		public Type<? extends CustomPacketPayload> type() {
@@ -52,7 +54,7 @@ public final class Payloads {
 	}
 
 	/** s2c, handled by duel_screen. */
-	public record DuelEventPayload(int duelId, int msgId, String text, int cid, int player, int amount) implements CustomPacketPayload {
+	public record DuelEventPayload(int duelId, int msgId, String text, int cid, int player, int amount, int actor, int cardType, int lp) implements CustomPacketPayload {
 		public static final Type<DuelEventPayload> TYPE = new Type<>(Identifier.fromNamespaceAndPath("duelcraft", "duel_event"));
 		public static final boolean TO_CLIENT = true;
 		public static final StreamCodec<RegistryFriendlyByteBuf, DuelEventPayload> CODEC = StreamCodec.of(
@@ -63,8 +65,11 @@ public final class Payloads {
 				buf.writeVarInt(p.cid());
 				buf.writeVarInt(p.player());
 				buf.writeVarInt(p.amount());
+				buf.writeVarInt(p.actor());
+				buf.writeVarInt(p.cardType());
+				buf.writeVarInt(p.lp());
 			},
-			buf -> new DuelEventPayload(buf.readVarInt(), buf.readVarInt(), buf.readUtf(), buf.readVarInt(), buf.readVarInt(), buf.readVarInt()));
+			buf -> new DuelEventPayload(buf.readVarInt(), buf.readVarInt(), buf.readUtf(), buf.readVarInt(), buf.readVarInt(), buf.readVarInt(), buf.readVarInt(), buf.readVarInt(), buf.readVarInt()));
 
 		@Override
 		public Type<? extends CustomPacketPayload> type() {
@@ -138,6 +143,22 @@ public final class Payloads {
 				buf.writeVarInt(p.duelId());
 			},
 			buf -> new DuelForfeitPayload(buf.readVarInt()));
+
+		@Override
+		public Type<? extends CustomPacketPayload> type() {
+			return TYPE;
+		}
+	}
+
+	/** c2s, handled by characters_server. */
+	public record CharacterPickPayload(int character) implements CustomPacketPayload {
+		public static final Type<CharacterPickPayload> TYPE = new Type<>(Identifier.fromNamespaceAndPath("duelcraft", "character_pick"));
+		public static final boolean TO_CLIENT = false;
+		public static final StreamCodec<RegistryFriendlyByteBuf, CharacterPickPayload> CODEC = StreamCodec.of(
+			(buf, p) -> {
+				buf.writeVarInt(p.character());
+			},
+			buf -> new CharacterPickPayload(buf.readVarInt()));
 
 		@Override
 		public Type<? extends CustomPacketPayload> type() {

@@ -89,6 +89,30 @@
    "usedBy": "duel_manager",
    "verified": true,
    "doc": "Smallest main deck allowed in a duel (official 40)."
+  },
+  {
+   "key": "VOICE_VOLUME",
+   "type": "float",
+   "value": "1.0F",
+   "usedBy": "voice_sound",
+   "verified": true,
+   "doc": "Volume of character voice lines (multiplied by the Voice/Speech slider)."
+  },
+  {
+   "key": "LOW_LP",
+   "type": "int",
+   "value": "2000",
+   "usedBy": "voice_director",
+   "verified": false,
+   "doc": "LP at or below which the low-LP line plays (once per duel per seat)."
+  },
+  {
+   "key": "BIG_DAMAGE",
+   "type": "int",
+   "value": "2000",
+   "usedBy": "voice_director",
+   "verified": false,
+   "doc": "Damage from which the heavy-damage line is used instead of the light one."
   }
  ]
 }

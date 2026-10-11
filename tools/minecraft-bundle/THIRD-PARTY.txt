@@ -1,7 +1,8 @@
 DuelCraft ships this copy of Minecraft's launcher setup so Melty can start Minecraft with DuelCraft in one click.
-It contains no Minecraft and no Yu-Gi-Oh! Master Duel files: Prism Launcher downloads Minecraft after you sign in
-with a Microsoft account that owns Minecraft: Java Edition, and DuelCraft reads the cards (names, text, stats, art)
-from your own Yu-Gi-Oh! Master Duel install (free on Steam) each time you play.
+It contains no Minecraft, Yu-Gi-Oh! Master Duel or Yu-Gi-Oh! Duel Links files: Prism Launcher downloads Minecraft
+after you sign in with a Microsoft account that owns Minecraft: Java Edition, DuelCraft reads the cards (names, text,
+stats, art) from your own Yu-Gi-Oh! Master Duel install and the characters' faces and voice lines from your own
+Yu-Gi-Oh! Duel Links install (both free on Steam) each time you play.
 
 DuelCraft {VERSION} (Prism/instances/DuelCraft/.minecraft/mods/duelcraft-*.jar)
   License: GNU Affero General Public License v3.0 or later (LICENSE.txt)
@@ -14,6 +15,10 @@ DuelCraft {VERSION} (Prism/instances/DuelCraft/.minecraft/mods/duelcraft-*.jar)
     - bcdec by Sergii Kudlai (github.com/iOrange/bcdec): MIT, texture decoding in duelcraft_native.dll.
     - XZ for Java 1.10 (tukaani.org/xz/java): 0BSD.
     - Unity common type-name table from UnityPy (github.com/K0lb3/UnityPy): MIT.
+    - Vorbis setup headers generated with libvorbis (xiph.org): BSD-3-Clause (LICENSE_libvorbis in the jar), from the
+      FSB5 header lookup of python-fsb5 (github.com/HearthSim/python-fsb5): MIT (LICENSE_python-fsb5 in the jar).
+    - Which Duel Links line goes with which card (dl/card_lines.tsv, numbers only) was worked out at build time from
+      speech-to-text with faster-whisper (MIT) and OpenAI Whisper base.en weights (MIT); neither is shipped.
 
 Prism Launcher {PRISM_VERSION} (Prism/, the unmodified portable Windows build)
   License: GNU General Public License v3.0 (Prism/LICENSE-PrismLauncher.txt)
@@ -25,5 +30,5 @@ Fabric Loader / Fabric API (installed by Prism / mods/fabric-api-*.jar)
 e4mc (mods/e4mc-*.jar): lets friends join your world over the internet
   License: MIT. Source: https://github.com/vgskye/e4mc-minecraft-architectury
 
-Yu-Gi-Oh! and Master Duel are trademarks of Konami; Minecraft is a trademark of Mojang/Microsoft. DuelCraft is a
+Yu-Gi-Oh!, Master Duel and Duel Links are trademarks of Konami; Minecraft is a trademark of Mojang/Microsoft. DuelCraft is a
 fan-made mod, not affiliated with or endorsed by them.

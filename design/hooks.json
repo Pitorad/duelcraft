@@ -145,6 +145,38 @@
    "system": "md_status",
    "purpose": "Show Master Duel status line on the title screen.",
    "verified": true
+  },
+  {
+   "id": "character_key",
+   "api": "KeyMappingHelper.registerKeyMapping (default K)",
+   "side": "client",
+   "system": "character_select",
+   "purpose": "Open the character menu.",
+   "verified": false
+  },
+  {
+   "id": "sound_mixin",
+   "api": "Mixin SoundBufferLibrary.getStream (duelcraft.client.mixins.json)",
+   "side": "client",
+   "system": "voice_sound",
+   "purpose": "Serve duelcraft_dl:voice/<clip> sounds from the player's Duel Links.",
+   "verified": true
+  },
+  {
+   "id": "sounds_json",
+   "api": "assets/duelcraft/sounds.json event voice (stream, placeholder silent.ogg)",
+   "side": "client",
+   "system": "voice_sound",
+   "purpose": "A sound event the voice instances resolve against.",
+   "verified": true
+  },
+  {
+   "id": "pick_on_join",
+   "api": "ClientPlayConnectionEvents.JOIN -> CharacterPickPayload",
+   "side": "client",
+   "system": "character_select",
+   "purpose": "Tell the server the saved pick when joining any world.",
+   "verified": true
   }
  ]
 }

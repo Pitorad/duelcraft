@@ -8,7 +8,11 @@
   },
   {
    "slug": "custom-yu-gi-oh-master-duel",
-   "role": "secondary"
+   "role": "companion"
+  },
+  {
+   "slug": "custom-yu-gi-oh-duel-links",
+   "role": "companion"
   }
  ],
  "components": [
@@ -46,7 +50,11 @@
   "args": [
    "--launch",
    "DuelCraft"
-  ]
+  ],
+  "env": {
+   "DUELCRAFT_MD_DIR": "{game:custom-yu-gi-oh-master-duel}",
+   "DUELCRAFT_DL_DIR": "{game:custom-yu-gi-oh-duel-links}"
+  }
  },
  "setup": {
   "label": "Minecraft",
@@ -56,7 +64,11 @@
    "args": [
     "--launch",
     "DuelCraft"
-   ]
+   ],
+   "env": {
+    "DUELCRAFT_MD_DIR": "{game:custom-yu-gi-oh-master-duel}",
+    "DUELCRAFT_DL_DIR": "{game:custom-yu-gi-oh-duel-links}"
+   }
   },
   "done": {
    "file": "{managed}/Prism/instances/DuelCraft/.minecraft/logs/latest.log",
@@ -82,5 +94,16 @@
    }
   }
  },
- "notes": "Needs Yu-Gi-Oh! Master Duel (free on Steam) installed and started once: DuelCraft reads the cards from it. The first start asks you to sign in to Minecraft in Prism Launcher once."
+ "notes": "Needs Yu-Gi-Oh! Master Duel and Yu-Gi-Oh! Duel Links (both free on Steam), each installed and started once: DuelCraft reads the cards from Master Duel and the characters and voices from Duel Links on your PC. The first start asks you to sign in to Minecraft in Prism Launcher once. Press K in game to pick your Duel Links character.",
+ "test": {
+  "checks": [
+   "cards-loaded",
+   "characters-loaded",
+   "duel-starts",
+   "voice-plays",
+   "portrait-shows",
+   "duel-finishes"
+  ],
+  "minutes": 9
+ }
 }

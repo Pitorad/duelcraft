@@ -24,6 +24,9 @@ public final class DuelCraftData {
 	private static volatile CardArtCache art;
 	private static volatile OcgCore core;
 	private static volatile MasterDuelLocator.Install install;
+	private static volatile dev.duelcraft.dl.DuelLinksData dl;
+	private static volatile dev.duelcraft.dl.VoiceTables voices;
+	private static volatile String dlStatus = "searching";
 	private static Thread loader;
 
 	private DuelCraftData() {
@@ -62,11 +65,45 @@ public final class DuelCraftData {
 			int[] v = core.version();
 			DuelCraft.LOG.info("DuelCraft ready: {} Master Duel cards ({} playable), duel engine {}.{}", cards.size(), cards.playable().size(), v[0], v[1]);
 			status = Status.READY;
+			loadDuelLinks();
 		} catch (Throwable t) {
 			error = String.valueOf(t.getMessage());
 			status = Status.FAILED;
 			DuelCraft.LOG.error("Loading Master Duel data failed", t);
 		}
+	}
+
+	/** Yu-Gi-Oh! Duel Links characters and voices (optional for the duels themselves). */
+	private static void loadDuelLinks() {
+		try {
+			dev.duelcraft.dl.DuelLinksLocator.Install i = dev.duelcraft.dl.DuelLinksLocator.find();
+			if (i == null) {
+				dlStatus = "missing";
+				DuelCraft.LOG.warn("Yu-Gi-Oh! Duel Links was not found: characters and voice lines are off. Install it on Steam (free) and start it once.");
+				return;
+			}
+			dlStatus = "indexing";
+			dev.duelcraft.dl.DuelLinksData d = dev.duelcraft.dl.DuelLinksData.load(i, dir().resolve("dl_index.tsv"), p -> progress = p);
+			voices = new dev.duelcraft.dl.VoiceTables();
+			dl = d;
+			dlStatus = "ready";
+			DuelCraft.LOG.info("Duel Links ready: {} characters, {} voice clips, {} card lines", d.characters().size(), d.clipCount(), voices.cardLineCount());
+		} catch (Throwable t) {
+			dlStatus = "failed";
+			DuelCraft.LOG.error("Loading Duel Links data failed", t);
+		}
+	}
+
+	public static dev.duelcraft.dl.DuelLinksData dl() {
+		return dl;
+	}
+
+	public static dev.duelcraft.dl.VoiceTables voices() {
+		return voices;
+	}
+
+	public static String dlStatus() {
+		return dlStatus;
 	}
 
 	public static Status status() {

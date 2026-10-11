@@ -85,6 +85,7 @@ $scriptsRev = (git -C "$root\third_party\CardScripts" rev-parse --short HEAD)
 (Get-Content "$bundle\THIRD-PARTY.txt" -Raw).Replace("{PRISM_VERSION}", $prismVersion).Replace("{VERSION}", $version).Replace("{OCG_REV}", $ocgRev).Replace("{SCRIPTS_REV}", $scriptsRev) |
     Set-Content "$bundle\THIRD-PARTY.txt" -NoNewline -Encoding UTF8
 Copy-Item "$root\LICENSE" "$bundle\LICENSE.txt"
+Copy-Item "$root\README.md" "$bundle\README.txt"
 Set-Content "$bundle\SOURCE.txt" "DuelCraft $version source code (AGPL-3.0-or-later): $SourceUrl`r`nBuilt from: ocgcore $ocgRev, CardScripts $scriptsRev." -Encoding UTF8
 $mods = "$bundle\Prism\instances\DuelCraft\.minecraft\mods"
 New-Item -ItemType Directory $mods -Force | Out-Null

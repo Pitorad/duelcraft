@@ -36,7 +36,15 @@ public enum HookIds {
 	/** ServerLifecycleEvents.SERVER_STARTED (integrated) + client world join (client, multiplayer_link): Auto Open-to-LAN when DUELCRAFT_LAN_PORT is set. */
 	WORLD_JOIN("client"),
 	/** ScreenEvents.AFTER_INIT (client, md_status): Show Master Duel status line on the title screen. */
-	TITLE_SCREEN("client");
+	TITLE_SCREEN("client"),
+	/** KeyMappingHelper.registerKeyMapping (default K) (client, character_select): Open the character menu. */
+	CHARACTER_KEY("client"),
+	/** Mixin SoundBufferLibrary.getStream (duelcraft.client.mixins.json) (client, voice_sound): Serve duelcraft_dl:voice/<clip> sounds from the player's Duel Links. */
+	SOUND_MIXIN("client"),
+	/** assets/duelcraft/sounds.json event voice (stream, placeholder silent.ogg) (client, voice_sound): A sound event the voice instances resolve against. */
+	SOUNDS_JSON("client"),
+	/** ClientPlayConnectionEvents.JOIN -> CharacterPickPayload (client, character_select): Tell the server the saved pick when joining any world. */
+	PICK_ON_JOIN("client");
 
 	public final String side;
 	private volatile boolean installed;

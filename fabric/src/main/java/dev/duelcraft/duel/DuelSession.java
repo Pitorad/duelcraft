@@ -79,7 +79,8 @@ public final class DuelSession {
 		for (int s = 0; s < 2; s++) {
 			ServerPlayer p = player(s);
 			if (p != null) {
-				ServerPlayNetworking.send(p, new Payloads.DuelStartPayload(id, s, seats[1 - s].name(), seats[1 - s] instanceof MobSeat, 0));
+				ServerPlayNetworking.send(p, new Payloads.DuelStartPayload(id, s, seats[1 - s].name(), seats[1 - s] instanceof MobSeat, 0,
+					characterOf(0), characterOf(1)));
 			}
 		}
 		say(Component.translatable("chat.duelcraft.duel_start", seats[0].name(), seats[1].name()).withStyle(ChatFormatting.GOLD));
@@ -95,6 +96,11 @@ public final class DuelSession {
 
 	private int[] codes(List<Integer> cids) {
 		return cids.stream().map(db::byCid).filter(c -> c != null && c.playable()).mapToInt(CardDb.CardInfo::passcode).toArray();
+	}
+
+	/** The Duel Links character a seat duels as (players only; mobs have none). */
+	int characterOf(int seat) {
+		return seats[seat] instanceof PlayerSeat p ? Characters.of(p.id()) : 0;
 	}
 
 	public ServerPlayer player(int seat) {
@@ -199,22 +205,60 @@ public final class DuelSession {
 
 	private void onEvent(DuelEngine.LoggedEvent e) {
 		String text = format(e);
-		int player = -1, amount = 0, cid = 0;
+		// actor: the seat the line belongs to (voice_categories); cardType: engine type flags of the card involved
+		int player = -1, amount = 0, cid = 0, actor = -1, cardType = 0, lp = 0;
 		switch (e.event()) {
-			case Events.Summoning s -> cid = cidOf(s.code());
-			case Events.SpSummoning s -> cid = cidOf(s.code());
-			case Events.FlipSummoning s -> cid = cidOf(s.code());
+			case Events.Summoning s -> {
+				cid = cidOf(s.code());
+				actor = s.where().con();
+			}
+			case Events.SpSummoning s -> {
+				cid = cidOf(s.code());
+				actor = s.where().con();
+			}
+			case Events.FlipSummoning s -> {
+				cid = cidOf(s.code());
+				actor = s.where().con();
+			}
+			case Events.SetCard s -> {
+				actor = s.where().con();
+				amount = s.where().loc();
+			}
 			case Events.Chaining c -> {
 				cid = cidOf(c.code());
+				actor = c.con();
+				amount = c.where().loc() == OcgCore.LOCATION_SZONE && (c.where().pos() & OcgCore.POS_FACEDOWN) != 0 ? 1 : 0;
 				board.highlight(c.where().con(), c.where().loc(), c.where().seq(), 30);
 			}
-			case Events.Attack a -> board.highlight(a.attacker().con(), a.attacker().loc(), a.attacker().seq(), 20);
+			case Events.Attack a -> {
+				DuelState.FieldCard ac = engine.state == null ? null : engine.state.at(a.attacker().con(), a.attacker().loc(), a.attacker().seq());
+				cid = ac == null ? 0 : cidOf(ac.code());
+				actor = a.attacker().con();
+				amount = a.target().loc() == 0 ? 1 : 0; // direct attack
+				board.highlight(a.attacker().con(), a.attacker().loc(), a.attacker().seq(), 20);
+			}
 			case Events.Damage d -> {
 				player = d.player();
 				amount = d.amount();
+				actor = d.player();
+				lp = engine.lp[d.player() & 1];
 			}
+			case Events.NewTurn t -> actor = t.player();
+			case Events.NewPhase ph -> {
+				actor = engine.turnPlayer;
+				amount = ph.phase();
+			}
+			case Events.Draw d -> {
+				actor = d.player();
+				amount = d.count();
+			}
+			case Events.Win w -> actor = w.player();
 			default -> {
 			}
+		}
+		if (cid != 0) {
+			CardDb.CardInfo ci = db.byCid(cid);
+			cardType = ci == null ? 0 : ci.type();
 		}
 		if (e.event() instanceof Events.Summoning || e.event() instanceof Events.SpSummoning || e.event() instanceof Events.FlipSummoning) {
 			board.burst(board.center());
@@ -225,7 +269,7 @@ public final class DuelSession {
 			for (int s = 0; s < 2; s++) {
 				ServerPlayer p = player(s);
 				if (p != null) {
-					ServerPlayNetworking.send(p, new Payloads.DuelEventPayload(id, e.msgId(), text, cid, player, amount));
+					ServerPlayNetworking.send(p, new Payloads.DuelEventPayload(id, e.msgId(), text, cid, player, amount, actor, cardType, lp));
 				}
 			}
 		}

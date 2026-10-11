@@ -20,6 +20,7 @@ public final class DuelNet {
 		PayloadTypeRegistry.clientboundPlay().register(Payloads.DuelEndPayload.TYPE, Payloads.DuelEndPayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(Payloads.DuelResponsePayload.TYPE, Payloads.DuelResponsePayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(Payloads.DuelForfeitPayload.TYPE, Payloads.DuelForfeitPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(Payloads.CharacterPickPayload.TYPE, Payloads.CharacterPickPayload.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(Payloads.DuelResponsePayload.TYPE, (p, ctx) -> {
 			DuelSession s = DuelManager.byId(p.duelId());
 			if (s != null) {

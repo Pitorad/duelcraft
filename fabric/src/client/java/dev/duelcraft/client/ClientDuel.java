@@ -21,6 +21,8 @@ public final class ClientDuel {
 	public static String result = "";
 	public static int rewardCid;
 	public static long promptArrived;
+	/** Duel Links character of each seat (0 = none). */
+	public static final int[] character = new int[2];
 
 	private ClientDuel() {
 	}
@@ -40,6 +42,9 @@ public final class ClientDuel {
 		result = "";
 		rewardCid = 0;
 		cards = List.of();
+		character[0] = p.character0();
+		character[1] = p.character1();
+		dev.duelcraft.client.dl.VoiceDirector.onStart();
 	}
 
 	public static void state(Payloads.DuelStatePayload p) {
@@ -57,6 +62,7 @@ public final class ClientDuel {
 	public static void event(Payloads.DuelEventPayload p) {
 		if (p.duelId() == duelId) {
 			log.add(p.text());
+			dev.duelcraft.client.dl.VoiceDirector.onEvent(p);
 			while (log.size() > 60) {
 				log.removeFirst();
 			}
@@ -80,11 +86,13 @@ public final class ClientDuel {
 		prompt = null;
 		result = p.winner() == seat ? "You win!" : p.winner() == 1 - seat ? "You lose..." : "Draw";
 		rewardCid = p.rewardCid();
+		dev.duelcraft.client.dl.VoiceDirector.onEnd(p.winner());
 		log.add(result + (p.reason().equals("duel") ? "" : " (" + p.reason() + ")"));
 	}
 
 	public static void leave() {
 		duelId = -1;
+		dev.duelcraft.client.dl.VoiceDirector.reset();
 		prompt = null;
 	}
 
