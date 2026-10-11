@@ -468,7 +468,7 @@
    "id": "character_select",
    "javaClass": "dev.duelcraft.client.dl.CharacterSelectScreen",
    "side": "client",
-   "purpose": "Key (default K) opens a grid of every Duel Links character (their icon, which carries the name); the pick is saved in config/duelcraft.properties and sent to the server.",
+   "purpose": "Key (default K) opens a grid of every Duel Links character (icon + name plate); the pick is saved in config/duelcraft.properties and sent to the server.",
    "dependsOn": [
     "dl_data",
     "network"

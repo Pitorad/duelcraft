@@ -23,12 +23,18 @@ import net.minecraft.server.MinecraftServer;
  */
 public final class MeltyLink {
 	private static boolean joinTried;
+	/** The join= address while that join is under way; Melty reads "Melty joined: " / "Melty join failed: " lines. */
+	private static String joining;
 
 	private MeltyLink() {
 	}
 
 	public static void init() {
 		ClientPlayConnectionEvents.JOIN.register((handler, sender, mc) -> {
+			if (joining != null && mc.getSingleplayerServer() == null) {
+				DuelCraft.LOG.info("Melty joined: {}", joining);
+				joining = null;
+			}
 			String port = System.getenv("DUELCRAFT_LAN_PORT");
 			MinecraftServer server = mc.getSingleplayerServer();
 			if (port == null || port.isBlank() || server == null || server.isPublished()) {
@@ -72,6 +78,10 @@ public final class MeltyLink {
 
 	/** Called every client tick: the first time the title screen shows, join the friend's world if asked to. */
 	public static void tick(Minecraft mc) {
+		if (joining != null && DuelCraftClient.screen() instanceof net.minecraft.client.gui.screens.DisconnectedScreen d) {
+			DuelCraft.LOG.info("Melty join failed: {}", d.getNarrationMessage().getString().replace('\n', ' '));
+			joining = null;
+		}
 		if (joinTried || !(DuelCraftClient.screen() instanceof TitleScreen title)) {
 			return;
 		}
@@ -79,6 +89,7 @@ public final class MeltyLink {
 		String join = joinAddress(mc);
 		if (join != null) {
 			DuelCraft.LOG.info("DuelCraft: joining {}", join);
+			joining = join;
 			ConnectScreen.startConnecting(title, mc, ServerAddress.parseString(join), new ServerData("DuelCraft", join, ServerData.Type.OTHER), false, null);
 		}
 	}

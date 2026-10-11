@@ -20,7 +20,7 @@ import net.minecraft.network.chat.Component;
 
 /**
  * Pick the Duel Links character you duel as (systems: character_select): every character in the player's Duel
- * Links with their icon (which carries the name). Saved as character=&lt;id&gt; in config/duelcraft.properties.
+ * Links with their icon and name plate. Saved as character=&lt;id&gt; in config/duelcraft.properties.
  */
 public final class CharacterSelectScreen extends Screen {
 	private static final int CELL_W = 44, CELL_H = 54;
@@ -80,11 +80,16 @@ public final class CharacterSelectScreen extends Screen {
 				g.centeredText(font, Component.translatable("gui.duelcraft.no_character"), x + (CELL_W - 4) / 2, y + (CELL_H - 4) / 2 - 4, 0xFFC0C0C0);
 				continue;
 			}
-			// the icon carries the character's name
 			PortraitTextures.Tex icon = PortraitTextures.get(ch, "icon");
 			if (icon != null) {
 				int h = CELL_H - 6, w = h * icon.width() / icon.height();
 				g.blit(RenderPipelines.GUI_TEXTURED, icon.id(), x + (CELL_W - 4 - w) / 2, y + 1, 0, 0, w, h, w, h);
+			}
+			// the name plate over the bottom of the icon
+			PortraitTextures.Tex name = PortraitTextures.get(ch, "name");
+			if (name != null) {
+				int w = CELL_W - 4, h = w * name.height() / name.width();
+				g.blit(RenderPipelines.GUI_TEXTURED, name.id(), x, y + CELL_H - 4 - h, 0, 0, w, h, w, h);
 			}
 		}
 		// title and hint bands stay on top of the scrolled grid

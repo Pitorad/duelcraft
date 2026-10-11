@@ -26,6 +26,10 @@ STOP = {"go", "attack", "draw", "turn", "end", "duel", "monster", "summon", "tra
         "my", "this", "card", "go go", "yes", "no", "ha", "time", "power", "destiny", "victory", "battle"}
 
 
+# words in a line that never stand for part of a card name
+FILLER = {"and", "the", "of", "a", "an", "my", "to", "i", "your", "you", "its", "it", "on", "from", "with", "is", "in", "s"}
+
+
 def norm(s):
     return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]", " ", s.lower().replace("-", " "))).strip()
 
@@ -55,7 +59,32 @@ def card_names():
             continue
         if n and n not in STOP and n not in out and (a1 & 0xFFFF) in ok:
             out[n] = (a1 & 0xFFFF, name)
+            # "Lord of D." is voiced "Lord of Dragons", "D. Tribe" "Dragon's Tribe"
+            if "D." in name:  # not "D - Spirit"
+                for d in ("dragons", "dragon s", "dragon"):
+                    out.setdefault(" ".join(d if w == "d" else w for w in n.split()), (a1 & 0xFFFF, name))
     return out
+
+
+def said(word, words):
+    """A name's word heard in the line, allowing for speech-to-text spelling ("Tomius" ~ "Timaeus") and run-together
+    words ("Redeye" ~ "red eyes", "Toybox" ~ "toy box")."""
+    runs = words + [a + b for a, b in zip(words, words[1:])] + [a + b + c for a, b, c in zip(words, words[1:], words[2:])]
+    return any(fuzz.ratio(word, w) >= 70 or len(word) >= 5 and len(w) >= len(word) and fuzz.partial_ratio(word, w) >= 85 for w in runs)
+
+
+def heard(key, words):
+    """Most of a multi-word name heard: at least 2 in 3 of its words of 3+ letters ("red eyes" said as "redeye"
+    counts both)."""
+    sig = [w for w in key.split() if len(w) >= 3 and w not in FILLER]
+    if len(sig) < 2:
+        return False
+    words = [w for w in words if w not in FILLER]
+    ok = [said(w, words) for w in sig]
+    for i in range(len(sig) - 1):
+        if not ok[i] and not ok[i + 1] and said(sig[i] + sig[i + 1], words):
+            ok[i] = ok[i + 1] = True
+    return sum(ok) / len(sig) >= 0.66
 
 
 def best(text, names, keys):
@@ -68,14 +97,24 @@ def best(text, names, keys):
     for k, _, _ in hits:
         for m in re.finditer(r"\b" + re.escape(k) + r"\b", t):
             exact.append((m.end(), len(k), k))
+    if not exact:
+        # hyphenated names said as one word: "De-Fusion" as "Defusion", "Bio Plant" as "bioplant"
+        compact = t.replace(" ", "")
+        for k, _, _ in hits:
+            ck = k.replace(" ", "")
+            if " " in k and len(ck) >= 6 and ck in compact:
+                exact.append((compact.index(ck) + len(ck), len(k), k))
     if exact:
         return names[max(exact)[2]]
     good = []
+    words = t.split()
     for key, score, _ in hits:
         if len(key) > len(t) + 3:
             continue  # the line must contain the name, not the other way round ("You" is not a card)
         if len(key) < MIN_LEN or len(key.split()) == 1:
             continue  # one-word and short names count only when said word for word (handled above)
+        if not heard(key, words):
+            continue  # every word of the name must be heard, not just a similar-looking run of letters
         good.append((round(score), len(key), key))
     if not good:
         return None

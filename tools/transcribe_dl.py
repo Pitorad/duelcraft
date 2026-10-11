@@ -42,7 +42,9 @@ if __name__ == "__main__":
     workers = int(sys.argv[3]) if len(sys.argv) > 3 else 7
     model = sys.argv[4] if len(sys.argv) > 4 else "base.en"
     done = {l.split("\t")[0] for l in open(out, encoding="utf-8")} if os.path.exists(out) else set()
-    items = sorted(os.path.join(src, f) for f in os.listdir(src) if f.endswith(".ogg") and f[:-4] not in done)
+    # each line's first part first: it usually names the card, so a run cut short still covers most lines
+    items = sorted((os.path.join(src, f) for f in os.listdir(src) if f.endswith(".ogg") and f[:-4] not in done),
+                   key=lambda p: (not p.endswith("_0.ogg"), p))
     print(len(items), "clips to transcribe", flush=True)
     t0 = time.time()
     with Pool(workers, initializer=init, initargs=(model,)) as pool, open(out, "a", encoding="utf-8") as o:
