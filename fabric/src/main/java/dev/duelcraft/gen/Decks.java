@@ -26,12 +26,18 @@ public final class Decks {
 		new int[] {6147, 6147, 6147, 4968, 4968, 4968, 5919, 5919, 5919, 6939, 6939, 6939, 5329, 5329, 5329, 11425, 11425, 11425, 4806, 4806, 4806, 4930, 4930, 4930, 4915, 4915, 4915, 9863, 9863, 9863, 5644, 5644, 5644, 6960, 6960, 6960, 4842, 4844, 4342, 4909},
 		new int[] {});
 
+	/** Effect Test Deck (used by duel_manager); Master Duel cids. */
+	public static final Deck EFFECTS = new Deck("effects", "Effect Test Deck",
+		new int[] {11560, 11560, 11560, 7359, 7359, 7359, 12896, 12896, 12896, 5561, 5561, 5561, 5423, 5423, 5423, 7849, 7849, 7849, 7215, 7215, 7215, 5236, 5236, 5236, 5430, 5430, 5430, 9676, 9676, 9676, 4842, 4989, 4989, 4989, 4909, 4909, 4909, 4836, 4836, 4836},
+		new int[] {7848, 7848});
+
 	public static Deck byId(String id) {
 		return switch (id) {
 			case "starter" -> STARTER;
 			case "dragons" -> DRAGONS;
 			case "undead" -> UNDEAD;
 			case "prompts" -> PROMPTS;
+			case "effects" -> EFFECTS;
 			default -> null;
 		};
 	}

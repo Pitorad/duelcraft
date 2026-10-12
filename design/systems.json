@@ -510,6 +510,18 @@
    ],
    "test": "local rehearsal with DUELCRAFT_MELTY_TEST, then Melty test_release (2+ runs)",
    "verified": true
+  },
+  {
+   "id": "effect_hints",
+   "javaClass": "dev.duelcraft.cards.EffectHints",
+   "side": "both",
+   "purpose": "What each activated effect does: md/effect_hints.tsv (tools/gen_effect_hints.py, from the card scripts' comments, categories, ranges and triggers) labels the effect (\"Change Level (Discard)\", \"Quick Effect · from GY\") and finds its sentence in the Master Duel text so the duel screen can light it up.",
+   "dependsOn": [
+    "card_scripts",
+    "duel_screen"
+   ],
+   "test": "EffectHintsTest (Stardust Dragon, Blue-Eyes Alternative, Clear Wing Fast Dragon) + in-game menu/preview screenshots",
+   "verified": true
   }
  ]
 }

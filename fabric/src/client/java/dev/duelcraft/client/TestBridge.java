@@ -184,6 +184,14 @@ public final class TestBridge {
 					+ dev.duelcraft.client.dl.VoiceDirector.speakingSeat() + " faces " + dev.duelcraft.client.dl.VoiceDirector.expression(0) + "/"
 					+ dev.duelcraft.client.dl.VoiceDirector.expression(1);
 			}
+			case "previewhint" -> {
+				String[] ph = arg.trim().split(" ");
+				if (s instanceof DuelScreen d) {
+					d.debugHint = ph.length < 2 ? 0 : ((long) Integer.parseInt(ph[0]) << 20) | Integer.parseInt(ph[1]);
+					return "preview hint " + d.debugHint;
+				}
+				return "not in duel screen";
+			}
 			case "duelopen" -> {
 				DuelCraftClient.open(new DuelScreen());
 				return "opened";
