@@ -54,6 +54,7 @@ dependencies {
 test {
 	useJUnitPlatform()
 	if (project.hasProperty("dlExport")) { systemProperty "dl.export", project.property("dlExport") }
+	if (project.hasProperty("probeCards")) { systemProperty "probe.cards", project.property("probeCards") }
 	jvmArgs "--enable-native-access=ALL-UNNAMED"
 	testLogging { events "passed", "failed"; exceptionFormat "full"; showStandardStreams = true }
 }

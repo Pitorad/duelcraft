@@ -177,6 +177,20 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 		return what + " (" + (own.isEmpty() ? "effect " + (n + 1) : String.join(", ", own)) + ")";
 	}
 
+	/** A choice's words: the effect it names, else the card text's matching "●" line or "increase or decrease" side. */
+	static String optionLabel(long d, int i) {
+		if ((d >>> 20) == 0) {
+			return desc(d, 0);
+		}
+		EffectHints.Hint h = EffectHints.of(d);
+		if (h != null && !EffectHints.what(h).isEmpty()) {
+			return effectLabel(d);
+		}
+		CardDb.CardInfo c = CardRender.byPasscode((int) (d >>> 20));
+		String choice = EffectHints.choice(c == null ? null : c.text(), d);
+		return choice != null ? choice : "Choice " + (i + 1) + " (see the card text)";
+	}
+
 	/** Kind, where and when of an effect description ("Quick Effect · from GY"), or "". */
 	static String effectDetails(long d) {
 		return (d >>> 20) == 0 ? "" : EffectHints.details(EffectHints.of(d));
@@ -218,7 +232,18 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 		Widget w = new Widget();
 		w.title = "Your Main Phase: click a card to use it";
 		addAll(w, p.summonable(), "Normal Summon", 0, e -> new int[] {e.con(), e.loc(), e.seq()}, null);
-		addAll(w, p.spsummonable(), "Special Summon", 1, e -> new int[] {e.con(), e.loc(), e.seq()}, null);
+		for (int i = 0; i < p.spsummonable().size(); i++) {
+			var e = p.spsummonable().get(i);
+			int idx = i;
+			if (isPile(e.loc())) {
+				// a card inside a pile (a Synchro/Xyz/Link from the Extra Deck, a monster in the GY) is not drawn: the pile gets the action
+				w.cardActions.computeIfAbsent(pileKey(e.con(), e.loc()), k -> new ArrayList<>())
+					.add(new Action(summonLabel(e.code()), () -> Responses.i32(idx << 16 | 1), activationHint(0, e.code())));
+			} else {
+				w.cardActions.computeIfAbsent(key(e.con(), e.loc(), e.seq()), k -> new ArrayList<>())
+					.add(new Action("Special Summon", () -> Responses.i32(idx << 16 | 1)));
+			}
+		}
 		addAll(w, p.repositionable(), "Change position", 2, e -> new int[] {e.con(), e.loc(), e.seq()}, null);
 		addAll(w, p.msetable(), "Set", 3, e -> new int[] {e.con(), e.loc(), e.seq()}, null);
 		addAll(w, p.ssetable(), "Set", 4, e -> new int[] {e.con(), e.loc(), e.seq()}, null);
@@ -231,6 +256,9 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 			} else {
 				w.buttons.add(new Action(act.label() + " (" + locName(a.loc()) + ")", act.answer()));
 			}
+		}
+		if (w.cardActions.containsKey(pileKey(ClientDuel.seat, OcgCore.LOCATION_EXTRA))) {
+			w.title = "Your Main Phase: click a card (or your Extra Deck) to use it";
 		}
 		if (p.canBp() != 0) {
 			w.buttons.add(new Action("Battle Phase", () -> Responses.i32(6)));
@@ -247,6 +275,23 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 	/** The hint an activation carries: its effect description, or a marker for "activate this card" (code &lt;&lt; 20 | 0xFFFFF). */
 	static long activationHint(long desc, int code) {
 		return (desc >>> 20) != 0 ? desc : ((long) code << 20) | 0xFFFFF;
+	}
+
+	static boolean isPile(int loc) {
+		return loc == OcgCore.LOCATION_EXTRA || loc == OcgCore.LOCATION_GRAVE || loc == OcgCore.LOCATION_REMOVED || loc == OcgCore.LOCATION_DECK;
+	}
+
+	static String pileKey(int con, int loc) {
+		return "pile:" + con + ":" + loc;
+	}
+
+	/** "Synchro Summon Red Rising Dragon" for a monster Special Summoned out of a pile. */
+	static String summonLabel(int code) {
+		CardDb.CardInfo c = CardRender.byPasscode(code);
+		int t = c == null ? 0 : c.type();
+		String how = (t & CardDb.TYPE_SYNCHRO) != 0 ? "Synchro Summon " : (t & CardDb.TYPE_XYZ) != 0 ? "Xyz Summon "
+			: (t & CardDb.TYPE_LINK) != 0 ? "Link Summon " : "Special Summon ";
+		return how + cardName(code);
 	}
 
 	private static boolean onFieldOrHand(int loc) {
@@ -293,7 +338,8 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 	@Override
 	public Widget yesNo(SelectEffectYn p) {
 		Widget w = new Widget();
-		w.title = ((p.desc() >>> 20) != 0 ? cardName(p.code()) + ": " : "") + desc(p.desc(), p.code()) + "?";
+		// a system string (e.g. 221, "activate this trigger?") or 0 just asks about the card's effect
+		w.title = (p.desc() >>> 20) != 0 ? cardName(p.code()) + ": " + desc(p.desc(), p.code()) + "?" : "Use the effect of " + cardName(p.code()) + "?";
 		w.focusCode = p.code();
 		w.focusHint = activationHint(p.desc(), p.code());
 		w.buttons.add(new Action("Yes", () -> Responses.i32(1)));
@@ -314,9 +360,19 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 	public Widget optionList(SelectOption p) {
 		Widget w = new Widget();
 		w.title = hintTitle("Choose an option");
+		int owner = 0;
+		for (var o : p.options()) {
+			owner = (o.desc() >>> 20) != 0 ? (int) (o.desc() >>> 20) : owner;
+		}
+		if (owner != 0) {
+			// a card's own choice: say whose, and show the card so its text is there to read
+			w.title = cardName(owner) + ": choose one";
+			w.focusCode = owner;
+		}
 		for (int i = 0; i < p.options().size(); i++) {
 			int idx = i;
-			w.buttons.add(new Action(desc(p.options().get(i).desc(), 0), () -> Responses.i32(idx)));
+			long d = p.options().get(i).desc();
+			w.buttons.add(new Action(optionLabel(d, i), () -> Responses.i32(idx)));
 		}
 		return w;
 	}
@@ -756,6 +812,11 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 		cardRects.put(k, r);
 		boolean hover = in(mx, my, r);
 		boolean selectable = widget != null && widget.cardActions.containsKey(k);
+		if (isPile(c.location())) {
+			String pk = pileKey(c.controller(), c.location());
+			cardRects.put(pk, r);
+			selectable |= widget != null && widget.cardActions.containsKey(pk);
+		}
 		if (selectable) {
 			// a slow pulse so the cards you can use stand out
 			int a = 0x90 + (int) (0x6F * (0.5 + 0.5 * Math.sin(System.currentTimeMillis() / 220.0)));
@@ -878,7 +939,8 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 		y = drawPhases(g, x, y, w);
 		y = drawPortraits(g, x, y, w, me);
 		// log: what each side did in its colour, the newest line brightest
-		int promptTop = height - 8 - (widget == null ? 0 : 18 + Math.max(1, widget.buttons.size()) * 16 + (hintLineFor(widget) ? 10 : 0));
+		int titleH = widget == null ? 0 : font.split(Component.literal(widget.title), w).size() * 10;
+		int promptTop = height - 8 - (widget == null ? 0 : titleH + 8 + Math.max(1, widget.buttons.size()) * 16 + (hintLineFor(widget) ? 10 : 0));
 		if (widget == null && !ClientDuel.result.isEmpty()) {
 			promptTop = height - 18 - (ClientDuel.rewardCid != 0 ? ch + 14 : 0); // room for the reward card and the Esc hint
 		}
@@ -1306,7 +1368,7 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 					menu = acts;
 					menuTitle = cardAt(k);
 					String[] kp = k.split(":");
-					DuelState.FieldCard mc = ClientDuel.at(Integer.parseInt(kp[0]), Integer.parseInt(kp[1]), Integer.parseInt(kp[2]));
+					DuelState.FieldCard mc = k.startsWith("pile:") ? null : ClientDuel.at(Integer.parseInt(kp[0]), Integer.parseInt(kp[1]), Integer.parseInt(kp[2]));
 					menuCode = mc == null ? 0 : mc.code();
 					menuX = (int) mx;
 					menuY = (int) my;
@@ -1356,6 +1418,10 @@ public final class DuelScreen extends Screen implements PromptWidgets<DuelScreen
 	}
 
 	private String cardAt(String k) {
+		if (k.startsWith("pile:")) {
+			String[] p = k.split(":");
+			return (Integer.parseInt(p[1]) == ClientDuel.seat ? "Your " : "Their ") + locName(Integer.parseInt(p[2]));
+		}
 		String[] p = k.split(":");
 		DuelState.FieldCard c = ClientDuel.at(Integer.parseInt(p[0]), Integer.parseInt(p[1]), Integer.parseInt(p[2]));
 		return c == null || c.empty() ? "?" : cardName(c.code());

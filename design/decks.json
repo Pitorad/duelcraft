@@ -520,6 +520,80 @@
     ]
    ],
    "verified": true
+  },
+  {
+   "id": "synchro",
+   "displayName": "Synchro Test Deck",
+   "usedBy": "duel_manager",
+   "main": [
+    [
+     "Soul Resonator",
+     3
+    ],
+    [
+     "Bone Archfiend",
+     3
+    ],
+    [
+     "Mystical Space Typhoon",
+     3
+    ],
+    [
+     "Trap Hole",
+     3
+    ],
+    [
+     "Call of the Haunted",
+     3
+    ],
+    [
+     "Bottomless Trap Hole",
+     3
+    ],
+    [
+     "Foolish Burial",
+     3
+    ],
+    [
+     "Book of Life",
+     3
+    ],
+    [
+     "Mezuki",
+     3
+    ],
+    [
+     "Gozuki",
+     3
+    ],
+    [
+     "Goblin Zombie",
+     3
+    ],
+    [
+     "Pyramid Turtle",
+     3
+    ],
+    [
+     "Zombie Master",
+     3
+    ],
+    [
+     "Dark Hole",
+     1
+    ]
+   ],
+   "extra": [
+    [
+     "Red Rising Dragon",
+     1
+    ],
+    [
+     "Doomkaiser Dragon",
+     1
+    ]
+   ],
+   "verified": true
   }
  ]
 }

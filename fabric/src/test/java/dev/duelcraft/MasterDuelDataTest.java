@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test;
 public class MasterDuelDataTest {
 	static final Path CACHE = Path.of("build", "test-cache");
 	static CardDb db;
-	static MasterDuelIndex index;
+	public static MasterDuelIndex index;
 
-	static synchronized CardDb db() throws Exception {
+	public static synchronized CardDb db() throws Exception {
 		if (db == null) {
 			MasterDuelLocator.Install md = MasterDuelLocator.find();
 			assertNotNull(md, "Master Duel not found");

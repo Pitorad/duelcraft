@@ -62,7 +62,7 @@ public final class MasterDuelCardTables {
 	}
 
 	/** Finds the en-us table in whichever data folder hash the current game build uses. */
-	private static byte[] table(MasterDuelIndex index, String pattern, int[] key) throws IOException {
+	static byte[] table(MasterDuelIndex index, String pattern, int[] key) throws IOException {
 		String file = pattern.substring(pattern.lastIndexOf('/') + 1);
 		String prefix = pattern.substring(0, pattern.indexOf("<hash>"));
 		List<String> hits = index.paths(s -> s.startsWith(prefix) && s.endsWith("/en-us/" + file));

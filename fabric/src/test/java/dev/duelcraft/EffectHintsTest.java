@@ -31,6 +31,13 @@ public class EffectHintsTest {
 		assertEquals("Quick Effect · in response to an activation", EffectHints.details(EffectHints.of((44508094L << 20))));
 		// Blue-Eyes Alternative White Dragon: the destroy effect, not the summon procedure
 		assertTrue(sentence(db, 38517737, 0).contains("destroy it"));
+		// choices a script offers: "increase or decrease" sides, and "●" lines
+		String bone = db.byPasscode(25784595).text();
+		assertEquals("Increase that monster's Level by 1", EffectHints.choice(bone, (25784595L << 20) | 3));
+		assertEquals("Decrease that monster's Level by 1", EffectHints.choice(bone, (25784595L << 20) | 4));
+		String stratos = db.byPasscode(40044918).text();
+		assertTrue(EffectHints.choice(stratos, (40044918L << 20) | 1).startsWith("Destroy Spells/Traps"));
+		assertTrue(EffectHints.choice(stratos, (40044918L << 20) | 2).startsWith("Add 1 \"HERO\" monster"));
 		// Odd-Eyes Pendulum Dragon-style three effects
 		sentence(db, 90036274, 0);
 		sentence(db, 90036274, 1);

@@ -154,6 +154,48 @@ public final class EffectHints {
 		return String.join(" · ", d);
 	}
 
+	// ------------------------------------------------------------------ choices a script offers (Duel.SelectOption / SelectEffect)
+
+	private static final java.util.regex.Pattern OR_CHOICE = java.util.regex.Pattern.compile(
+		"\\b(increase|decrease|gain|lose|add|send|banish|destroy|return|shuffle|special summon|set|draw|negate|change|attach|detach|place|discard)"
+			+ "\\s+or\\s+(increase|decrease|gain|lose|add|send|banish|destroy|return|shuffle|special summon|set|draw|negate|change|attach|detach|place|discard)"
+			+ "\\s+([^.;]+)", java.util.regex.Pattern.CASE_INSENSITIVE);
+
+	/**
+	 * Words for a choice a script offers with aux.Stringid(id, n) when that string is not an effect's description:
+	 * the n-th "●" line of the card text ("activate 1 of these effects"), else one side of an "increase or decrease
+	 * that monster's Level by 1" phrase; null when neither fits. Choice strings follow the card's effect descriptions,
+	 * so the first one after them is choice 1.
+	 */
+	public static String choice(String text, long desc) {
+		if (text == null || (desc >>> 20) == 0) {
+			return null;
+		}
+		int owner = (int) (desc >>> 20), n = (int) (desc & 0xFFFFF), base = 0;
+		for (Hint o : forCard(owner)) {
+			base = Math.max(base, o.n + 1);
+		}
+		int idx = n - base;
+		if (idx < 0) {
+			return null;
+		}
+		List<String> bullets = new ArrayList<>();
+		for (String line : text.split("\n")) {
+			if (line.startsWith("●")) {
+				bullets.add(line.substring(1).trim());
+			}
+		}
+		if (idx < bullets.size()) {
+			return bullets.get(idx);
+		}
+		java.util.regex.Matcher m = OR_CHOICE.matcher(text);
+		if (m.find() && idx < 2) {
+			String verb = m.group(idx + 1);
+			return Character.toUpperCase(verb.charAt(0)) + verb.substring(1).toLowerCase(Locale.ROOT) + " " + m.group(3).trim();
+		}
+		return null;
+	}
+
 	// ------------------------------------------------------------------ finding the effect in the card text
 
 	/** Words in the card text that go with a tag. */

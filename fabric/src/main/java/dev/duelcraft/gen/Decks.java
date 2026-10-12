@@ -31,6 +31,11 @@ public final class Decks {
 		new int[] {11560, 11560, 11560, 7359, 7359, 7359, 12896, 12896, 12896, 5561, 5561, 5561, 5423, 5423, 5423, 7849, 7849, 7849, 7215, 7215, 7215, 5236, 5236, 5236, 5430, 5430, 5430, 9676, 9676, 9676, 4842, 4989, 4989, 4989, 4909, 4909, 4909, 4836, 4836, 4836},
 		new int[] {7848, 7848});
 
+	/** Synchro Test Deck (used by duel_manager); Master Duel cids. */
+	public static final Deck SYNCHRO = new Deck("synchro", "Synchro Test Deck",
+		new int[] {19014, 19014, 19014, 19016, 19016, 19016, 4909, 4909, 4909, 4836, 4836, 4836, 4989, 4989, 4989, 5400, 5400, 5400, 5236, 5236, 5236, 5430, 5430, 5430, 7359, 7359, 7359, 12896, 12896, 12896, 5561, 5561, 5561, 5423, 5423, 5423, 7215, 7215, 7215, 4342},
+		new int[] {12695, 7848});
+
 	public static Deck byId(String id) {
 		return switch (id) {
 			case "starter" -> STARTER;
@@ -38,6 +43,7 @@ public final class Decks {
 			case "undead" -> UNDEAD;
 			case "prompts" -> PROMPTS;
 			case "effects" -> EFFECTS;
+			case "synchro" -> SYNCHRO;
 			default -> null;
 		};
 	}
